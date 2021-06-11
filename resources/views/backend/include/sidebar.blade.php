@@ -10,6 +10,7 @@
     </div>
     <!-- Sidebar Navidation Menus--><span class="heading">Main</span>
     <ul class="list-unstyled">
+            <li class="active"><a href="{{ route('home') }}"> <i class="icon-home"></i>Home </a></li>
             <li class="active"><a href="index.html"> <i class="icon-grid"></i>Dashboard </a></li>
             <li><a href="#exampledropdownDropdown1" aria-expanded="false" data-toggle="collapse"> <i class="icon-picture"></i>Banner </a>
               <ul id="exampledropdownDropdown1" class="collapse list-unstyled ">
@@ -32,7 +33,7 @@
                   <li><a href="#">Page</a></li>
                 </ul>
               </li>
-              <li><a href="#exampledropdownDropdown4" aria-expanded="false" data-toggle="collapse"> <i class="icon-basket-loaded" aria-hidden="true" style="font-size: 25px;"></i></i>Cart </a>
+              <li><a href="#exampledropdownDropdown4" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-cart-plus" aria-hidden="true" style="font-size: 20px;"></i></i>Cart </a>
                 <ul id="exampledropdownDropdown4" class="collapse list-unstyled ">
                   <li><a href="#">Page</a></li>
                   <li><a href="#">Page</a></li>
@@ -46,21 +47,42 @@
                   <li><a href="#">Page</a></li>
                 </ul>
               </li>
-              <li><a href="#exampledropdownDropdown6" aria-expanded="false" data-toggle="collapse"> <i class="icon-windows"></i>Post Tag </a>
+              <li><a href="#exampledropdownDropdown6" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-tags" aria-hidden="true"></i> </i>Post Tag </a>
                 <ul id="exampledropdownDropdown6" class="collapse list-unstyled ">
                   <li><a href="#">Page</a></li>
                   <li><a href="#">Page</a></li>
                   <li><a href="#">Page</a></li>
                 </ul>
               </li>
-              <li><a href="#exampledropdownDropdown7" aria-expanded="false" data-toggle="collapse"> <i class="icon-windows"></i>Post </a>
+              <li><a href="#exampledropdownDropdown7" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-newspaper-o" aria-hidden="true"></i>Post </a>
                 <ul id="exampledropdownDropdown7" class="collapse list-unstyled ">
                   <li><a href="#">Page</a></li>
                   <li><a href="#">Page</a></li>
                   <li><a href="#">Page</a></li>
                 </ul>
               </li>
-              <li><a href="#exampledropdownDropdown8" aria-expanded="false" data-toggle="collapse"> <i class="icon-stars"></i>Review </a>
+              <li><a href="#exampledropdownDropdown8" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-star" aria-hidden="true"> </i> Review </a>
+                <ul id="exampledropdownDropdown8" class="collapse list-unstyled ">
+                  <li><a href="#">Page</a></li>
+                  <li><a href="#">Page</a></li>
+                  <li><a href="#">Page</a></li>
+                </ul>
+              </li>
+              <li><a href="#exampledropdownDropdown8" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-check-square-o" aria-hidden="true"></i> Coupon </a>
+                <ul id="exampledropdownDropdown8" class="collapse list-unstyled ">
+                  <li><a href="#">Page</a></li>
+                  <li><a href="#">Page</a></li>
+                  <li><a href="#">Page</a></li>
+                </ul>
+              </li>
+              <li><a href="#exampledropdownDropdown8" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-users" aria-hidden="true"></i> Users </a>
+                <ul id="exampledropdownDropdown8" class="collapse list-unstyled ">
+                  <li><a href="#">Page</a></li>
+                  <li><a href="#">Page</a></li>
+                  <li><a href="#">Page</a></li>
+                </ul>
+              </li>
+              <li><a href="#exampledropdownDropdown8" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-comments" aria-hidden="true"></i> Comments </a>
                 <ul id="exampledropdownDropdown8" class="collapse list-unstyled ">
                   <li><a href="#">Page</a></li>
                   <li><a href="#">Page</a></li>
@@ -68,7 +90,11 @@
                 </ul>
               </li>
             <li><a href="login.html"> <i class="icon-settings"></i>Settings </a></li>
-            <li><a href="login.html"> <i class="icon-logout"></i>Login page </a></li>
+            <li><a href="{{ route('logout') }}"
+                onclick="event.preventDefault();document.getElementById('logout-form').submit();"><i class="icon-logout"></i>{{ __('Logout') }}
+                </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">@csrf</form>
+            </li>
     </ul><span class="heading">Extras</span>
     <ul class="list-unstyled">
       <li> <a href="#"> <i class="icon-settings"></i>Demo </a></li>
