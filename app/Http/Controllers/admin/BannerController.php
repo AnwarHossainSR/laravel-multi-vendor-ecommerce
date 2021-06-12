@@ -148,4 +148,5 @@ class BannerController extends Controller
 
         return \response()->json(['msg'=>'status successfully updated','status'=>true]);
     }
+
 }

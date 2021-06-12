@@ -20,9 +20,14 @@
             </li>
             <li><a href="#exampledropdownDropdown2" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-sitemap" style="font-size: 20px;"></i>Category </a>
                 <ul id="exampledropdownDropdown2" class="collapse list-unstyled ">
-                  <li><a href="#">Page</a></li>
-                  <li><a href="#">Page</a></li>
-                  <li><a href="#">Page</a></li>
+                  <li><a href="{{ route('category.index') }}">All Category</a></li>
+                  <li><a href="{{ route('category.create') }}">Create Category</a></li>
+                </ul>
+              </li>
+              <li><a href="#exampledropdownDropdownBrand" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-sitemap" style="font-size: 20px;"></i>Brand </a>
+                <ul id="exampledropdownDropdownBrand" class="collapse list-unstyled ">
+                  <li><a href="{{ route('brand.index') }}">All Brands</a></li>
+                  <li><a href="{{ route('brand.create') }}">Create Brand</a></li>
                 </ul>
               </li>
               <li><a href="#exampledropdownDropdown3" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-briefcase" aria-hidden="true" style="font-size: 20px;"></i></i>Product </a>
