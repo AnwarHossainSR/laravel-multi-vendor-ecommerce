@@ -11,12 +11,11 @@
     <!-- Sidebar Navidation Menus--><span class="heading">Main</span>
     <ul class="list-unstyled">
             <li class="active"><a href="{{ route('home') }}"> <i class="icon-home"></i>Home </a></li>
-            <li class="active"><a href="index.html"> <i class="icon-grid"></i>Dashboard </a></li>
+            <li><a href="{{ route('admin') }}"> <i class="icon-grid"></i>Dashboard </a></li>
             <li><a href="#exampledropdownDropdown1" aria-expanded="false" data-toggle="collapse"> <i class="icon-picture"></i>Banner </a>
               <ul id="exampledropdownDropdown1" class="collapse list-unstyled ">
-                <li><a href="#">Page</a></li>
-                <li><a href="#">Page</a></li>
-                <li><a href="#">Page</a></li>
+                <li><a href="{{ route('banner.index') }}">All Banners</a></li>
+                <li><a href="{{ route('banner.create') }}">Create Banner</a></li>
               </ul>
             </li>
             <li><a href="#exampledropdownDropdown2" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-sitemap" style="font-size: 20px;"></i>Category </a>
@@ -96,10 +95,5 @@
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">@csrf</form>
             </li>
     </ul><span class="heading">Extras</span>
-    <ul class="list-unstyled">
-      <li> <a href="#"> <i class="icon-settings"></i>Demo </a></li>
-      <li> <a href="#"> <i class="icon-writing-whiteboard"></i>Demo </a></li>
-      <li> <a href="#"> <i class="icon-chart"></i>Demo </a></li>
-    </ul>
   </nav>
   <!-- Sidebar Navigation end-->

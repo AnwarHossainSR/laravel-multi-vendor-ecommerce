@@ -138,7 +138,7 @@
           <div class="list-inline-item logout">
               <a id="logout" class="nav-link" href="{{ route('logout') }}"
               onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-               {{ __('Logout') }} <i class="icon-logout"></i></a>
+               {{ __('Logout') }} <i class="icon-logout text-primary"></i></a>
               <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">@csrf</form>
           </div>
         </div>
