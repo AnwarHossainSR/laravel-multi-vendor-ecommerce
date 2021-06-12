@@ -1,4 +1,4 @@
-<header class="header">   
+<header class="header">
     <nav class="navbar navbar-expand-lg">
       <div class="search-panel">
         <div class="search-inner d-flex align-items-center justify-content-center">
@@ -19,7 +19,7 @@
           <!-- Sidebar Toggle Btn-->
           <button class="sidebar-toggle"><i class="fa fa-long-arrow-left"></i></button>
         </div>
-        <div class="right-menu list-inline no-margin-bottom">    
+        <div class="right-menu list-inline no-margin-bottom">
           <div class="list-inline-item"><a href="#" class="search-open nav-link"><i class="icon-magnifying-glass-browser"></i></a></div>
           <div class="list-inline-item dropdown"><a id="navbarDropdownMenuLink1" href="http://example.com" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link messages-toggle"><i class="icon-email"></i><span class="badge dashbg-1">5</span></a>
             <div aria-labelledby="navbarDropdownMenuLink1" class="dropdown-menu messages"><a href="#" class="dropdown-item message d-flex align-items-center">
@@ -135,7 +135,12 @@
             <div aria-labelledby="languages" class="dropdown-menu"><a rel="nofollow" href="#" class="dropdown-item"> <img src="img/flags/16/DE.png" alt="English" class="mr-2"><span>German</span></a><a rel="nofollow" href="#" class="dropdown-item"> <img src="img/flags/16/FR.png" alt="English" class="mr-2"><span>French  </span></a></div>
           </div>
           <!-- Log out               -->
-          <div class="list-inline-item logout">                   <a id="logout" href="login.html" class="nav-link">Logout <i class="icon-logout"></i></a></div>
+          <div class="list-inline-item logout">
+              <a id="logout" class="nav-link" href="{{ route('logout') }}"
+              onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+               {{ __('Logout') }} <i class="icon-logout text-primary"></i></a>
+              <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">@csrf</form>
+          </div>
         </div>
       </div>
     </nav>
