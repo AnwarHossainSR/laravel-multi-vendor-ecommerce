@@ -23,6 +23,7 @@ class UserTableSeeder extends Seeder
                 'email_verified_at' => now(),
                 'password'=>Hash::make('admin'),
                 'role'=>'admin',
+                'photo'=>'https://fakeimg.pl/350x200/?text=Hello',
                 'status'=>'active'
             ],
             [
@@ -32,6 +33,7 @@ class UserTableSeeder extends Seeder
                 'email_verified_at' => now(),
                 'password'=>Hash::make('vendor'),
                 'role'=>'vendor',
+                'photo'=>'https://fakeimg.pl/350x200/?text=Hello',
                 'status'=>'active'
             ],
             [
@@ -41,6 +43,7 @@ class UserTableSeeder extends Seeder
                 'email_verified_at' => now(),
                 'password'=>Hash::make('customer'),
                 'role'=>'customer',
+                'photo'=>'https://fakeimg.pl/350x200/?text=Hello',
                 'status'=>'active'
             ]
         ]);

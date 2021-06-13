@@ -8,6 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     use HasFactory;
-    protected $fillable=['title','slug','summary','photo','is_parent','parent_id'];
+    protected $fillable=['title','slug','summary','photo','is_parent','status','parent_id'];
+
+    public static function shiftChild($cat_id){
+        return Category::whereIn('id',$cat_id)->update(['is_parent'=>1]);
+    }
+    public static function getChildByParentID($id){
+        return Category::where('parent_id',$id)->orderBy('id','ASC')->pluck('title','id');
+    }
 }
-php artisan make:factory

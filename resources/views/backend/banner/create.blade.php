@@ -1,7 +1,5 @@
 @extends('backend.master')
 @push('css')
-    <link rel="stylesheet" href="{{ asset('admin') }}/table/DataTables/DataTables-1.10.18/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="{{ asset('admin') }}/table/DataTables/Buttons-1.5.6/css/buttons.bootstrap4.min.css">
     <link rel="stylesheet" href="{{asset('admin/summernote/summernote.min.css')}}">
 @endpush
 
@@ -27,7 +25,7 @@
                     <div class="row">
                         <div class="col-sm-6">
                           <div class="form-group-material">
-                            <input id="register-username" type="text" name="title" required class="input-material">
+                            <input id="register-username" type="text" name="title" class="input-material">
                             <label for="register-username" class="label-material">Title</label>
                             @error('title')
                                 <span class="text-danger">{{$message}}</span>

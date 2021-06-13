@@ -11,7 +11,7 @@
 <div class="page-content">
 	<div class="page-header">
 	  <div class="container-fluid">
-		<h2 class="h5 no-margin-bottom"><i class="fa fa-home" aria-hidden="true"></i>&nbsp;<a href="{{ route('admin') }}">Banners</a></h2>
+		<h2 class="h5 no-margin-bottom"><i class="fa fa-home" aria-hidden="true"></i>&nbsp;<a href="{{ route('admin') }}">Users</a></h2>
 	  </div>
 	</div>
 	<section class="no-padding-bottom">
@@ -24,57 +24,48 @@
 		<div class="row">
 		  <div class="col-lg-12">
             <div class="card mt-5">
-                <div class="card-body">
+                <div class="card-body"z>
                     <div class="d-flex justify-content-between">
-                        <h1 class="display-4">All Banners</h1>
-                        <h1 class="display-4"><a href="{{ route('banner.create') }}" class="btn btn-secondary text-white p-2"><i class="fa fa-plus" aria-hidden="true"></i> Add Banner</a></h1>
+                        <h1 class="display-4">All Users</h1>
+                        <h1 class="display-4"><a href="{{ route('user.create') }}" class="btn btn-secondary text-white p-2"><i class="fa fa-plus" aria-hidden="true"></i> Create User</a></h1>
                     </div>
                     <table id="table" class="table table-striped">
                         <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Title</th>
-                                <th>Slug</th>
-                                <th>Image</th>
-                                <th>Condition</th>
+                                <th>S.N.</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Photo</th>
+                                <th>Join Date</th>
+                                <th>Role</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($banners as $banner)
+                            @foreach ($users as $user)
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $banner->title }}</td>
-                                <td>{{ $banner->slug }}</td>
+                                <td>{{$user->id}}</td>
+                                <td>{{$user->name}}</td>
+                                <td>{{$user->email}}</td>
                                 <td>
-                                    @if($banner->photo)
-                                        <img src="{{$banner->photo}}" class="img-fluid zoom" style="max-width:80px" alt="{{$banner->photo}}">
+                                    @if($user->photo)
+                                        <img src="{{$user->photo}}" class="img-fluid rounded-circle" style="max-width:50px" alt="{{$user->photo}}">
                                     @else
-                                        <img src="{{asset('backend/img/thumbnail-default.jpg')}}" class="img-fluid zoom" style="max-width:100%" alt="avatar.png">
+                                        <img src="{{asset('backend/img/avatar.png')}}" class="img-fluid rounded-circle" style="max-width:50px" alt="avatar.png">
                                     @endif
                                 </td>
+                                <td>{{(($user->created_at)? $user->created_at->diffForHumans() : '')}}</td>
+                                <td>{{$user->role}}</td>
                                 <td>
-                                    @if($banner->condition=='banner')
-                                        <span class="badge badge-success">{{$banner->condition}}</span>
-                                    @else
-                                        <span class="badge badge-primary">{{$banner->condition}}</span>
-                                    @endif
+                                    <input type="checkbox" name="toggle" value="{{ $user->id }}" data-toggle="switchbutton" {{ $user->status == 'active' ? 'checked':'' }} data-onlabel="active" data-offlabel="inactive"data-size="sm" data-onstyle="success" data-offstyle="danger">
                                 </td>
                                 <td>
-                                    <input type="checkbox" name="toggle" value="{{ $banner->id }}" data-toggle="switchbutton" {{ $banner->status == 'active' ? 'checked':'' }} data-onlabel="active" data-offlabel="inactive"data-size="sm" data-onstyle="success" data-offstyle="danger">
-                                   {{--  @if($banner->status=='active')
-                                        <span class="badge badge-success">{{$banner->status}}</span>
-                                    @else
-                                        <span class="badge badge-warning">{{$banner->status}}</span>
-                                    @endif --}}
-                                </td>
-                                <td>
-                                    <a href="{{route('banner.edit',$banner->id)}}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="edit" data-placement="bottom"><i class="fa fa-edit"></i></a>
-                                    <form method="POST" action="{{route('banner.destroy',[$banner->id])}}">
+                                    <a href="{{route('user.edit',$user->id)}}" class="btn btn-primary btn-sm float-left mr-1" style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" title="edit" data-placement="bottom"><i class="fa fa-edit"></i></a>
+                                    <form method="POST" action="{{route('user.destroy',[$user->id])}}">
                                     @csrf
                                     @method('delete')
-                                        <button class="btn btn-danger btn-sm dltBtn" data-id={{$banner->id}} style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fa fa-trash"></i></button>
+                                        <button class="btn btn-danger btn-sm dltBtn" data-id={{$user->id}} style="height:30px; width:30px;border-radius:50%" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fa fa-trash"></i></button>
                                     </form>
                                 </td>
                             </tr>
@@ -118,7 +109,7 @@
                var mode = $(this).prop('checked')
                var id = $(this).val()
                $.ajax({
-                   url:'{{ route('banner.status') }}',
+                   url:'{{ route('user.status') }}',
                    type:'POST',
                    data:{
                        _token:'{{ csrf_token() }}',

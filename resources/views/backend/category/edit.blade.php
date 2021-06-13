@@ -8,7 +8,7 @@
 <div class="page-content">
 	<div class="page-header">
 	  <div class="container-fluid">
-		<h2 class="h5 no-margin-bottom"><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;<a href="{{ route('banner.index') }}">Banners</a></h2>
+		<h2 class="h5 no-margin-bottom"><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;<a href="{{ route('category.index') }}">Categories</a></h2>
 	  </div>
 	</div>
 	<section class="no-padding-bottom">
@@ -18,43 +18,55 @@
             <div class="card mt-5">
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
-                        <h3 class="display-6">Create Banner</h3>
+                        <h3 class="display-6">Category Update</h3>
                     </div>
-                    <form action="{{route('banner.update',$banner->id)}}" method="POST">
+                    <form action="{{ route('category.update',$category->id) }}" method="POST">
                         @csrf
                         @method('PATCH')
                     <div class="row">
                         <div class="col-sm-6">
                           <div class="form-group-material">
-                            <input id="register-username" type="text" name="title" value="{{ $banner->title }}" required class="input-material">
+                            <input id="register-username" value="{{ $category->title }}" type="text" name="title" required class="input-material">
                             <label for="register-username" class="label-material">Title</label>
                             @error('title')
                                 <span class="text-danger">{{$message}}</span>
                             @enderror
                           </div>
-
-                          <div class="form-group row">
-                            <label for="register-email" class="label-material ml-3">Condition</label>
-                            <div class="col-sm-12">
-                              <select name="condition" class="form-control mb-3 mb-3">
-                                <option value="banner" {{ $banner->condition == 'banner'?'selected':'' }}>Banner</option>
-                                <option value="promo" {{ $banner->condition =='promo'?'selected':'' }}>Promotion</option>
-                              </select>
-                              @error('condition')
+                          <div class="col-sm-12 mr-3 mt-3">
+                            <label for="is_parent">Is Parent</label><br>
+                            <input type="checkbox" name='is_parent' id='is_parent' value="{{ $category->is_parent }}" {{ $category->is_parent ? 'checked' : '' }}> {{ $category->is_parent ? 'Yes' : '' }}
+                              @error('is_parent')
                                 <span class="text-danger">{{$message}}</span>
                               @enderror
                             </div>
-                            <div class="col-sm-12 ml-auto mt-3">
-                              <select name="status" class="form-control">
-                                <option value="active" {{ $banner->status =='active'?'selected':'' }}>Active</option>
-                                <option value="inactive" {{ $banner->status =='inactive'?'selected':'' }}>Inactive</option>
-                              </select>
+
+                          <div class="form-group row mt-3">
+                            <label for="register-email" class="label-material ml-3">Parent Category</label>
+                            <div class="col-sm-12">
+                                <select name="parent_id" class="form-control mb-3 mb-3">
+                                    @foreach ($parent_cats as $cate)
+                                    <option value="{{ $cate->id }}" {{ $cate->id == $category->parent_id ?'selected':'' }}>{{ $cate->title }}</option>
+                                    @endforeach
+                                </select>
+                              @error('parent_id')
+                                <span class="text-danger">{{$message}}</span>
+                              @enderror
+                            </div>
+
+                          </div>
+
+                          <div class="form-group row">
+                            <label for="register-email" class="label-material ml-3">Status</label>
+                            <div class="col-sm-12">
+                                <select name="status" class="form-control">
+                                    <option value="active" {{ $category->status == 'active'?'selected':'' }}>Active</option>
+                                     value="inactive" {{ $category->status == 'inactive'?'selected':'' }}>Inactive</option>
+                                </select>
                               @error('status')
                                 <span class="text-danger">{{$message}}</span>
                               @enderror
                             </div>
                           </div>
-
                         </div>
                         <div class="col-sm-6 mt-4">
                             <div class="input-group">
@@ -63,7 +75,7 @@
                                     <i class="fa fa-picture-o"></i> Choose
                                   </a>
                                 </span>
-                                <input id="thumbnail" value="{{ $banner->photo }}" class="form-control" type="text" name="photo">
+                                <input id="thumbnail" class="form-control" type="text" name="photo" value="{{ $category->photo }}">
                               </div>
                               <div id="holder" style="margin-top:15px;max-height:300px;">
                             </div>
@@ -76,10 +88,10 @@
                       <div class="row mt-5">
                           <div class="col-md-12">
                             <div class="form-group-material">
-                                <label class="label-material">Description</label>
+                                <label class="label-material">Summery</label>
                                 <div class="col-lg-12">
-                                    <textarea name="description" id="description"  required class="input-material" style="background-color:#22252A;border:1px solid #62666C">{{ $banner->description }}</textarea>
-                                    @error('description')
+                                    <textarea name="summary" id="description"  required class="input-material" style="background-color:#22252A;border:1px solid #62666C">{{ $category->summary }}</textarea>
+                                    @error('summary')
                                         <span class="text-danger">{{$message}}</span>
                                     @enderror
                                 </div>
