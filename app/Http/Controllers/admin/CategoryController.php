@@ -160,17 +160,20 @@ class CategoryController extends Controller
         return redirect()->route('category.index');
     }
 
-    public function getChildByParent(Request $request){
-        // return $request->all();
+    public function getChildByParent(Request $request,$id){
         $category=Category::findOrFail($request->id);
-        $child_cat=Category::getChildByParentID($request->id);
-        // return $child_cat;
-        if(count($child_cat)<=0){
-            return response()->json(['status'=>false,'msg'=>'','data'=>null]);
+        if($category){
+            $child_cat=Category::getChildByParentID($request->id);
+            if(count($child_cat)<=0){
+                return response()->json(['status'=>false,'msg'=>'no data found','data'=>null]);
+            }
+            else{
+                return response()->json(['status'=>true,'msg'=>'success','data'=>$child_cat]);
+            }
+        }else{
+            return response()->json(['status'=>false,'msg'=>'no data found','data'=>null]);
         }
-        else{
-            return response()->json(['status'=>true,'msg'=>'','data'=>$child_cat]);
-        }
+
     }
 
 
