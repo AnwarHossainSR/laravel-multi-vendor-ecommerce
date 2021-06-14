@@ -6,13 +6,12 @@ use App\Http\Controllers\admin\BrandController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\ProductControllert;
 use App\Http\Controllers\admin\UserController;
+use App\Http\Controllers\frontend\IndexController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('frontend.include.main');
-})->name('home');
+Route::get('/',[IndexController::class,'home'])->name('home');
 
 Route::get('/login', [HomeController::class,'index']);
 Route::get('/register', [HomeController::class,'index']);
