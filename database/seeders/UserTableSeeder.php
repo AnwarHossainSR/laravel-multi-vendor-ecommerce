@@ -27,17 +27,17 @@ class UserTableSeeder extends Seeder
                 'status'=>'active'
             ],
             [
-                'full_name'=>'Anwar Hossain',
-                'username'=>'Vendor',
-                'email'=>'vendor@gmail.com',
+                'full_name'=>'Mahedi Hasan',
+                'username'=>'Seller',
+                'email'=>'seller@gmail.com',
                 'email_verified_at' => now(),
-                'password'=>Hash::make('vendor'),
-                'role'=>'vendor',
+                'password'=>Hash::make('seller'),
+                'role'=>'seller',
                 'photo'=>'https://fakeimg.pl/350x200/?text=Hello',
                 'status'=>'active'
             ],
             [
-                'full_name'=>'Anwar Hossain',
+                'full_name'=>'Ibrahim Aaraf',
                 'username'=>'Customer',
                 'email'=>'customer@gmail.com',
                 'email_verified_at' => now(),

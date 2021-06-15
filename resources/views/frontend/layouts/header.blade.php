@@ -49,7 +49,7 @@
                     <!-- Logo -->
                     <div class="logo">
 
-                        <a href=""><img src="" alt="logo"></a>
+                        <a href="{{route('home')}}"><img src="{{ asset('frontend') }}/img/logo.png" alt="logo"></a>
                     </div>
                     <!--/ End Logo -->
                     <!-- Search Form -->
@@ -72,7 +72,9 @@
                         <div class="search-bar">
                             <select>
                                 <option >All Category</option>
-
+                                {{-- @foreach ($categories as $category)
+                                <option value="{{ $category->id }}">{{ $category->title }}</option>
+                                @endforeach --}}
                             </select>
                             <form method="POST" action="">
                                 @csrf
@@ -155,7 +157,7 @@
                                 <div class="navbar-collapse">
                                     <div class="nav-inner">
                                         <ul class="nav main-menu menu navbar-nav">
-                                            <li class=""><a href="">Home</a></li>
+                                            <li class=""><a href="{{ route('home') }}">Home</a></li>
                                             <li class=""><a href="">About Us</a></li>
                                             <li class=""><a href="">Products</a><span class="new">New</span></li>
 

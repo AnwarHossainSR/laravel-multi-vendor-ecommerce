@@ -163,6 +163,8 @@ class ProductControllert extends Controller
         }
         if($request->has('is_featured')){
             $data['is_featured']=true;
+        }else{
+            $data['is_featured']=$request->input('is_featured',false);
         }
         $status=$product->fill($data)->save();
         if($status){

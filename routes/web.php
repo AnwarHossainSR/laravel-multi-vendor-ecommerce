@@ -17,7 +17,18 @@ Route::get('/login', [HomeController::class,'index']);
 Route::get('/register', [HomeController::class,'index']);
 
 Auth::routes();
-Route::group(['prefix'=>'/admin','middleware'=>['auth']],function(){
+
+//Frontend routes
+
+Route::get('/product-cat/{slug}',[IndexController::class,'productCategory'])->name('product-cat');
+Route::get('product-detail/{slug}',[IndexController::class,'productDetail'])->name('product-detail');
+Route::get('/product-brand/{slug}',[IndexController::class,'productBrand'])->name('product-brand');
+Route::get('/product-lists',[IndexController::class,'productLists'])->name('product-lists');
+Route::match(['get','post'],'/filter',[IndexController::class,'productFilter'])->name('shop.filter');
+
+
+//End frontend
+Route::group(['prefix'=>'/admin','middleware'=>['auth','admin']],function(){
     Route::get('/dashboard', [AdminController::class,'admin'])->name('admin');
     //Banners
     Route::resource('banner', BannerController::class);
@@ -36,4 +47,20 @@ Route::group(['prefix'=>'/admin','middleware'=>['auth']],function(){
     //users
     Route::resource('user', UserController::class);
     Route::post('user_status', [UserController::class,'userStatus'])->name('user.status');
+});
+
+//seller
+
+Route::group(['prefix'=>'/seller','middleware'=>['auth','seller']],function(){
+    Route::get('/dashboard', function () {
+        return 'Seller user';
+    })->name('seller');
+});
+
+//customer
+
+Route::group(['prefix'=>'/user','middleware'=>['auth','user']],function(){
+    Route::get('/dashboard', function () {
+        return 'normal user';
+    })->name('customer');
 });

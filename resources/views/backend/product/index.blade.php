@@ -48,7 +48,8 @@
                                 <td>{{ \Illuminate\Support\Str::limit($product->title, 10) }}</td>
                                 <td>
                                     @if($product->photo)
-                                        <img src="{{$product->photo}}" class="img-fluid zoom" style="max-width:80px" alt="Product Image">
+                                    @php($photo=explode(',',$product->photo))
+                                    <img src="{{$photo[0]}}" class="img-fluid zoom" style="max-width:80px" alt="Product Image">
                                     @else
                                         <img src="{{asset('backend/img/thumbnail-default.jpg')}}" class="img-fluid zoom" style="max-width:100%" alt="avatar.png">
                                     @endif
@@ -228,9 +229,8 @@
                        id:dataID,
                    },
                    success:function(response){
-                       console.log(response.data.title)
                        if(response.status){
-                           console.log(response)
+                        var photo = response.data.photo.split(',');
                         $('.modal-title').html(response.data.title)
                         $('.stock').html(response.data.stock)
                         $('.price').html(response.data.price+' $')
@@ -240,7 +240,7 @@
                         $('.status').html(response.data.status)
                         $('.summary').html(response.data.summary)
                         $('.description').html(response.data.description)
-                        $('.photo').attr( "src", response.data.photo);
+                        $('.photo').attr( "src", photo[0]);
                         if(response.data.is_featured == 1){
                             $('.feature').html('Yes')
                         }else{
@@ -250,7 +250,6 @@
                         $('.category').html(response.category)
                         $('.ccategory').html(response.chiled_category)
                         $('.vendor').html(response.vendor)
-
                        }else{
                            swal('error','Please try again letter')
                        }
