@@ -16,4 +16,46 @@ class Category extends Model
     public static function getChildByParentID($id){
         return Category::where('parent_id',$id)->orderBy('id','ASC')->pluck('title','id');
     }
+
+    //
+    public function products(){
+        return $this->hasMany('App\Models\Product','cat_id','id')->where('status','active');
+    }
+    public static function getProductByCat($slug){
+        return Category::with('products')->where('slug',$slug)->first();
+    }
+    //
+
+    public static function cat_info($slug){
+       return Category::where('slug',$slug)->get();
+    }
+
+    //
+    public function child_cat(){
+        return $this->hasMany('App\Models\Category','parent_id','id')->where('status','active');
+    }
+    public static function getAllParentWithChild(){
+        return Category::with('child_cat')->where('is_parent',1)->where('status','active')->orderBy('title','ASC')->get();
+    }
+
+    //
+
+
+    public function rel_prods(){
+        return $this->hasMany('App\Models\Product','cat_id','cat_id')->where('status','active')->orderBy('id','DESC')->limit(8);
+    }
+    public function getReview(){
+        return $this->hasMany('App\Models\ProductReview','product_id','id')->with('user_info')->where('status','active')->orderBy('id','DESC');
+    }
+    public static function getProductBySlug($slug){
+        return Product::with(['cat_info','rel_prods','getReview'])->where('slug',$slug)->first();
+    }
+
+    //
+
+    public static function getProductByCateWithfiltered($id,$column,$variable)
+    {
+        return Product::where(['status'=>'active','cat_id'=>$id])->orderBy($column,$variable)->paginate(15);
+    }
+
 }

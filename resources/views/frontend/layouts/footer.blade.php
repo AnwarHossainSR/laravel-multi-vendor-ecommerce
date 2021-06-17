@@ -8,10 +8,11 @@
 						<!-- Single Widget -->
 						<div class="single-footer about">
 							<div class="logo">
-								<a href="index.html"><img src="{{asset('backend/img/logo2.png')}}" alt="#"></a>
+								<a href="index.html"><img src="{{asset('frontend')}}/img/logo2.png" alt="logo"></a>
 							</div>
 
-							<p class="textshort_des</p>
+							<p class="textsho">
+                            rt_des</p>
 							<p class="call">Got Question? Call us 24/7<span><a href="tel:123456789">phone</a></span></p>
 						</div>
 						<!-- End Single Widget -->
@@ -71,12 +72,12 @@
 					<div class="row">
 						<div class="col-lg-6 col-12">
 							<div class="left">
-								<p>Copyright © {{date('Y')}} <a href="https://github.com/Prajwal100" target="_blank">Prajwal Rai</a>  -  All Rights Reserved.</p>
+								<p>Copyright © {{date('Y')}} <a href="https://github.com/AnwarSR" target="_blank" class="text-danger">Anwar Hossain</a>  -  All Rights Reserved.</p>
 							</div>
 						</div>
 						<div class="col-lg-6 col-12">
 							<div class="right">
-								<img src="{{asset('backend/img/payments.png')}}" alt="#">
+								<img src="{{asset('frontend')}}/img/payments.png" alt="payment photo">
 							</div>
 						</div>
 					</div>
@@ -95,7 +96,7 @@
 	<!-- Bootstrap JS -->
 	<script src="{{asset('frontend/js/bootstrap.min.js')}}"></script>
 	<!-- Color JS -->
-	<script src="{{asset('frontend/js/colors.js')}}"></script>
+	{{-- <script src="{{asset('frontend/js/colors.js')}}"></script> --}}
 	<!-- Slicknav JS -->
 	<script src="{{asset('frontend/js/slicknav.min.js')}}"></script>
 	<!-- Owl Carousel JS -->
@@ -121,13 +122,14 @@
 
 	<!-- Active JS -->
 	<script src="{{asset('frontend/js/active.js')}}"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
 	@stack('scripts')
 	<script>
 		setTimeout(function(){
 		  $('.alert').slideUp();
-		},5000);
+		},10000);
 		$(function() {
 		// ------------------------------------------------------- //
 		// Multi Level dropdowns

@@ -24,14 +24,13 @@ class UserFactory extends Factory
     {
         return [
             'full_name' => $this->faker->name(),
-            'username' => $this->faker->randomElement(['Admin','Vendor','Customer']),
+            'username' => $this->faker->randomElement(['Admin','Seller','Customer']),
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'phone' => $this->faker->phoneNumber,
-            'address' => $this->faker->address,
             'photo' => $this->faker->imageUrl(width:60,height:60),
-            'role' => $this->faker->randomElement(['admin','vendor','customer']),
+            'role' => $this->faker->randomElement(['admin','seller','customer']),
             'status' => $this->faker->randomElement(['active','inactive']),
             'remember_token' => Str::random(10),
         ];

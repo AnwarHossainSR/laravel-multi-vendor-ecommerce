@@ -18,7 +18,7 @@
                     <div class="carousel-caption d-none d-md-block text-left">
                         <h1 class="wow fadeInDown">{{$banner->title}}</h1>
                         <p>{!! html_entity_decode($banner->description) !!}</p>
-                        <a class="btn btn-lg ws-btn wow fadeInUpBig" href="" role="button">Shop Now<i class="far fa-arrow-alt-circle-right"></i></i></a>
+                        <a class="btn btn-lg ws-btn wow fadeInUpBig" href="{{ $banner->slug }}" role="button">Shop Now<i class="far fa-arrow-alt-circle-right"></i></i></a>
                     </div>
                 </div>
             @endforeach
@@ -37,40 +37,35 @@
 <!--/ End Slider Area -->
 
 <!-- Start Small Banner  -->
-{{-- <section class="small-banner section">
+<section class="small-banner section">
     <div class="container-fluid">
         <div class="row">
-            @php
-            $category_lists=DB::table('categories')->where('status','active')->limit(3)->get();
-            @endphp
-            @if($category_lists)
-                @foreach($category_lists as $cat)
-                    @if($cat->is_parent==1)
-                        <!-- Single Banner  -->
-                        <div class="col-lg-4 col-md-6 col-12">
-                            <div class="single-banner">
-                                @if($cat->photo)
-                                    <img src="{{$cat->photo}}" alt="{{$cat->photo}}">
-                                @else
-                                    <img src="https://via.placeholder.com/600x370" alt="#">
-                                @endif
-                                <div class="content">
-                                    <h3>{{$cat->title}}</h3>
-                                        <a href="{{route('product-cat',$cat->slug)}}">Discover Now</a>
-                                </div>
+            @if($categories->count() > 0)
+                @foreach($categories as $cat)
+                    <!-- Single Banner  -->
+                    <div class="col-lg-4 col-md-6 col-12">
+                        <div class="single-banner">
+                            @if($cat->photo)
+                                <img src="{{$cat->photo}}" alt="{{$cat->photo}}" width="600px" height="370px">
+                            @else
+                                <img src="https://via.placeholder.com/600x370" alt="photo" width="600px" height="370px">
+                            @endif
+                            <div class="content">
+                                <h3>{{$cat->title}}</h3>
+                                    <a href="{{route('product-cat',$cat->slug)}}">Discover Now</a>
                             </div>
                         </div>
-                    @endif
+                    </div>
                     <!-- /End Single Banner  -->
                 @endforeach
             @endif
         </div>
     </div>
-</section> --}}
+</section>
 <!-- End Small Banner -->
 
 <!-- Start Product Area -->
-{{-- <div class="product-area section">
+<div class="product-area section">
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -85,13 +80,9 @@
                         <div class="nav-main">
                             <!-- Tab Nav -->
                             <ul class="nav nav-tabs filter-tope-group" id="myTab" role="tablist">
-                                @php
-                                    $categories=DB::table('categories')->where('status','active')->where('is_parent',1)->get();
-                                    // dd($categories);
-                                @endphp
-                                @if($categories)
+                                @if($categories->count() > 0)
                                 <button class="btn" style="background:black"data-filter="*">
-                                    All Products
+                                    All
                                 </button>
                                     @foreach($categories as $key=>$cat)
 
@@ -105,8 +96,8 @@
                         </div>
                         <div class="tab-content isotope-grid" id="myTabContent">
                              <!-- Start Single Tab -->
-                            @if($product_lists)
-                                @foreach($product_lists as $key=>$product)
+                            @if($products->count() > 0)
+                                @foreach($products as $key=>$product)
                                 <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item {{$product->cat_id}}">
                                     <div class="single-product">
                                         <div class="product-img">
@@ -123,30 +114,36 @@
                                                     <span class="new">New</span
                                                 @elseif($product->condition=='hot')
                                                     <span class="hot">Hot</span>
+                                                @elseif($product->condition=='popular')
+                                                    <span class="popular">Popular</span>
+                                                @elseif($product->condition=='winter')
+                                                    <span class="new">Winter</span>
                                                 @else
                                                     <span class="price-dec">{{$product->discount}}% Off</span>
                                                 @endif
-
 
                                             </a>
                                             <div class="button-head">
                                                 <div class="product-action">
                                                     <a data-toggle="modal" data-target="#{{$product->id}}" title="Quick View" href="#"><i class=" ti-eye"></i><span>Quick Shop</span></a>
-                                                    <a title="Wishlist" href="{{route('add-to-wishlist',$product->slug)}}" ><i class=" ti-heart "></i><span>Add to Wishlist</span></a>
+                                                    <a title="Wishlist" href="{{-- {{route('add-to-wishlist',$product->slug)}} --}}" ><i class=" ti-heart "></i><span>Add to Wishlist</span></a>
                                                 </div>
                                                 <div class="product-action-2">
-                                                    <a title="Add to cart" href="{{route('add-to-cart',$product->slug)}}">Add to cart</a>
+                                                    {{-- <a title="Add to cart" href="{{route('add-to-cart',$product->slug)}}">Add to cart</a> --}}
+                                                    <a title="Add to cart" href="#" data-product-id="{{ $product->id }}" data-quantity="1" class="add-to-cart" id="add-to-cart{{ $product->id }}"><i class="fa fa-cart-plus">&nbsp;Add to cart</i></a>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="product-content">
                                             <h3><a href="{{route('product-detail',$product->slug)}}">{{$product->title}}</a></h3>
                                             <div class="product-price">
-                                                @php
-                                                    $after_discount=($product->price-($product->price*$product->discount)/100);
-                                                @endphp
-                                                <span>${{number_format($after_discount,2)}}</span>
-                                                <del style="padding-left:4%;">${{number_format($product->price,2)}}</del>
+
+                                                @if ($product->offer_price > 0)
+                                                    <span>${{number_format($product->offer_price,2)}}</span>
+                                                    <del style="padding-left:4%;">${{number_format($product->price,2)}}</del>
+                                                @else
+                                                <span>${{number_format($product->price,2)}}</span>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -163,24 +160,22 @@
                 </div>
             </div>
         </div>
-</div> --}}
+</div>
 <!-- End Product Area -->
 
 <!-- Start Midium Banner  -->
-{{-- <section class="midium-banner">
+<section class="midium-banner">
     <div class="container">
         <div class="row">
-            @if($featured)
+            @if($featured->count() > 0)
                 @foreach($featured as $data)
                     <!-- Single Banner  -->
-                    <div class="col-lg-6 col-md-6 col-12">
+                    <div class="col-lg-6 col-md-6 col-12" >
                         <div class="single-banner">
-                            @php
-                                $photo=explode(',',$data->photo);
-                            @endphp
-                            <img src="{{$photo[0]}}" alt="{{$photo[0]}}">
+
+                            <img src="{{$data->photo}}" alt="product photo" style="width:555px;height:342.25px;">
                             <div class="content">
-                                <p>{{$data->cat_info['title']}}</p>
+                                <p>{{$data->cat_info->title}}</p>
                                 <h3>{{$data->title}} <br>Up to<span> {{$data->discount}}%</span></h3>
                                 <a href="{{route('product-detail',$data->slug)}}">Shop Now</a>
                             </div>
@@ -191,11 +186,64 @@
             @endif
         </div>
     </div>
-</section> --}}
+</section>
 <!-- End Midium Banner -->
 
 <!-- Start Most Popular -->
- {{-- in note pad --}}
+<div class="product-area most-popular section">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section-title">
+                    <h2>Hot Item</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="owl-carousel popular-slider">
+                    @foreach($products as $product)
+                        @if($product->condition=='hot')
+                            <!-- Start Single Product -->
+                        <div class="single-product">
+                            <div class="product-img">
+                                <a href="{{route('product-detail',$product->slug)}}">
+
+                                    <img class="default-img" src="{{$product->photo}}" alt="product photo
+                                    <img class="hover-img" src="{{$product->photo}}" alt="product photo">
+                                    <span class="out-of-stock">Hot</span>
+                                </a>
+                                <div class="button-head">
+                                    <div class="product-action">
+                                        <a data-toggle="modal" data-target="#{{$product->id}}" title="Quick View" href="#"><i class=" ti-eye"></i><span>Quick Shop</span></a>
+                                        <a title="Wishlist" href="{{-- {{route('add-to-wishlist',$product->slug)}} --}}" ><i class=" ti-heart "></i><span>Add to Wishlist</span></a>
+                                    </div>
+                                    <div class="product-action-2">
+                                        <a href="{{-- {{route('add-to-cart',$product->slug)}} --}}">Add to cart</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-content">
+                                <h3><a href="{{route('product-detail',$product->slug)}}">{{$product->title}}</a></h3>
+                                <div class="product-price">
+                                    @if($product->offer_price > 0)
+                                        <span>${{number_format($product->offer_price,2)}}</span>
+                                        <span class="old">${{number_format($product->price,2)}}</span>
+
+                                    @else
+                                        <span>${{number_format($product->price,2)}}</span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Single Product -->
+                        @endif
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- End Most Popular Area -->
 
 <!-- Start Shop Home List  -->
@@ -379,6 +427,10 @@
         color:black;
         }
 
+        .hot{
+            background-color: rgb(219, 10, 10)
+        }
+
         #Gslider .carousel-inner{
         height: 550px;
         }
@@ -411,68 +463,7 @@
 @endpush
 
 @push('scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 
-    {{-- <script>
-        $('.cart').click(function(){
-            var quantity=1;
-            var pro_id=$(this).data('id');
-            $.ajax({
-                url:"{{route('add-to-cart')}}",
-                type:"POST",
-                data:{
-                    _token:"{{csrf_token()}}",
-                    quantity:quantity,
-                    pro_id:pro_id
-                },
-                success:function(response){
-                    console.log(response);
-					if(typeof(response)!='object'){
-						response=$.parseJSON(response);
-					}
-					if(response.status){
-						swal('success',response.msg,'success').then(function(){
-							// document.location.href=document.location.href;
-						});
-					}
-                    else{
-                        window.location.href='user/login'
-                    }
-                }
-            })
-        });
-    </script> --}}
-    {{-- <script>
-        $('.wishlist').click(function(){
-            var quantity=1;
-            var pro_id=$(this).data('id');
-            // alert(pro_id);
-            $.ajax({
-                url:"{{route('add-to-wishlist')}}",
-                type:"POST",
-                data:{
-                    _token:"{{csrf_token()}}",
-                    quantity:quantity,
-                    pro_id:pro_id,
-                },
-                success:function(response){
-                    if(typeof(response)!='object'){
-                        response=$.parseJSON(response);
-                    }
-                    if(response.status){
-                        swal('success',response.msg,'success').then(function(){
-                            document.location.href=document.location.href;
-                        });
-                    }
-                    else{
-                        swal('error',response.msg,'error').then(function(){
-							// document.location.href=document.location.href;
-						});
-                    }
-                }
-            });
-        });
-    </script> --}}
     <script>
 
         /*==================================================================
@@ -543,6 +534,71 @@
             }
             return false
         }
+    </script>
+
+    <script>
+        $(document).on('click','.add-to-cart',function(e){
+            var pro_id = $(this).data('product-id')
+            var quantity = $(this).data('quantity')
+            e.preventDefault();
+            $.ajax({
+                url:"{{route('cart.store')}}",
+                type:"POST",
+                data:{
+                    _token:"{{csrf_token()}}",
+                    quantity:quantity,
+                    pro_id:pro_id
+                },
+                beforeSend:function(){
+                    $('#add-to-cart'+pro_id).html('<i class="fa fa-spinner fa-spin"></i> Loading...');
+                },
+                complete:function(){
+                    $('#add-to-cart'+pro_id).html('<i class="fa fa-cart-plus"></i> ADD TO CART');
+                },
+                success:function(response){
+                    response=$.parseJSON(response);
+                    if(response['status']){
+                        $('body #cart-ajax-loader').html(response['header']);
+						Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: response['message'],
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+					}
+                }
+            })
+        })
+    </script>
+
+    <script>
+        $(document).on('click','.cart-delete',function(e){
+            var cart_id = $(this).data('id')
+            e.preventDefault();
+            $.ajax({
+                url:"{{route('cart.remove')}}",
+                type:"POST",
+                data:{
+                    _token:"{{csrf_token()}}",
+                    cart_id:cart_id
+                },
+                success:function(response){
+                    response=$.parseJSON(response);
+
+                    if(response['status']){
+                        $('body #cart-ajax-loader').html(response['header']);
+						Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: response['message'],
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+					}
+                }
+            })
+        })
     </script>
 
 @endpush

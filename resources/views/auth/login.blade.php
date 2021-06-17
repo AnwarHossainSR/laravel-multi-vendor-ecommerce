@@ -19,6 +19,7 @@
           <!-- Form Panel    -->
           <div class="col-lg-6 bg-white">
             <div class="form d-flex align-items-center">
+                @include('frontend.layouts.notification')
               <div class="content">
                 <form method="POST" action="{{ route('login') }}" class="form-validate">
                     @csrf
