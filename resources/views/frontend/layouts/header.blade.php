@@ -126,7 +126,7 @@
                                 <div class="shopping-item">
                                     <div class="dropdown-cart-header">
                                         <span> Items</span>
-                                        <a href="">View Cart</a>
+                                        <a href="{{ route('cart') }}">View Cart</a>
                                     </div>
                                     <ul class="shopping-list">
                                         @foreach (Cart::instance('shopping')->content() as $item)

@@ -73,8 +73,8 @@
               </li>
               <li><a href="#exampledropdownDropdown9" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-check-square-o" aria-hidden="true"></i> Coupon </a>
                 <ul id="exampledropdownDropdown9" class="collapse list-unstyled ">
-                  <li><a href="#">Page</a></li>
-                  <li><a href="#">Page</a></li>
+                  <li><a href="{{ route('coupon.index') }}">All Coupon</a></li>
+                  <li><a href="{{ route('coupon.create') }}">Add Coupon</a></li>
                   <li><a href="#">Page</a></li>
                 </ul>
               </li>

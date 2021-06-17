@@ -4,6 +4,7 @@ use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\admin\BannerController;
 use App\Http\Controllers\admin\BrandController;
 use App\Http\Controllers\admin\CategoryController;
+use App\Http\Controllers\admin\CouponController;
 use App\Http\Controllers\admin\ProductControllert;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\frontend\CartController;
@@ -29,14 +30,11 @@ Route::get('/product-lists',[IndexController::class,'productLists'])->name('prod
 Route::match(['get','post'],'/filter',[IndexController::class,'productFilter'])->name('shop.filter');
 
 // Cart section
-//Route::get('/add-to-cart/{slug}','CartController@addToCart')->name('add-to-cart')->middleware('user');
+Route::get('/cart',[CartController::class,'cart'])->name('cart');
 Route::post('/cart/store',[CartController::class,'singleAddToCart'])->name('cart.store');
 Route::post('/cart-delete',[CartController::class,'cartRemove'])->name('cart.remove');
 //Route::post('/cart-update','CartController@cartUpdate')->name('cart.update');
 
-Route::get('/cart',function(){
-    return view('frontend.pages.cart');
-})->name('cart');
 Route::get('/checkout','CartController@checkout')->name('checkout')->middleware('user');
 
 //End frontend
@@ -61,6 +59,9 @@ Route::group(['prefix'=>'/admin','middleware'=>['auth','admin']],function(){
     //users
     Route::resource('user', UserController::class);
     Route::post('user_status', [UserController::class,'userStatus'])->name('user.status');
+    //coupon
+    Route::resource('coupon', CouponController::class);
+    Route::post('coupon_status', [CouponController::class,'couponStatus'])->name('coupon.status');
 });
 
 
