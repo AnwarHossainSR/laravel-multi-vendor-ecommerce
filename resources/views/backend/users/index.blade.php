@@ -45,8 +45,8 @@
                         <tbody>
                             @foreach ($users as $user)
                             <tr>
-                                <td>{{$user->id}}</td>
-                                <td>{{$user->name}}</td>
+                                <td>{{$loop->iteration}}</td>
+                                <td>{{$user->full_name}}</td>
                                 <td>{{$user->email}}</td>
                                 <td>
                                     @if($user->photo)

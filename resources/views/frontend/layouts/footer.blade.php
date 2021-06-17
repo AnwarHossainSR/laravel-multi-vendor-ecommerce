@@ -96,7 +96,7 @@
 	<!-- Bootstrap JS -->
 	<script src="{{asset('frontend/js/bootstrap.min.js')}}"></script>
 	<!-- Color JS -->
-	<script src="{{asset('frontend/js/colors.js')}}"></script>
+	{{-- <script src="{{asset('frontend/js/colors.js')}}"></script> --}}
 	<!-- Slicknav JS -->
 	<script src="{{asset('frontend/js/slicknav.min.js')}}"></script>
 	<!-- Owl Carousel JS -->
@@ -122,13 +122,14 @@
 
 	<!-- Active JS -->
 	<script src="{{asset('frontend/js/active.js')}}"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
 	@stack('scripts')
 	<script>
 		setTimeout(function(){
 		  $('.alert').slideUp();
-		},5000);
+		},10000);
 		$(function() {
 		// ------------------------------------------------------- //
 		// Multi Level dropdowns

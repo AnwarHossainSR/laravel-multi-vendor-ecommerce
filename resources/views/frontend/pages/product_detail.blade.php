@@ -218,8 +218,12 @@
 											@endphp
                                             <img class="default-img" src="{{$photo[0]}}" alt="{{$photo[0]}}">
                                             <img class="hover-img" src="{{$photo[0]}}" alt="{{$photo[0]}}">
+                                            @if ($data->discount > 0)
                                             <span class="price-dec">{{$data->discount}} % Off</span>
+                                            @else
                                             <span class="out-of-stock">Hot</span>
+                                            @endif
+
                                         </a>
                                         <div class="button-head">
                                             <div class="product-action">
@@ -235,11 +239,12 @@
                                     <div class="product-content">
                                         <h3><a href="{{route('product-detail',$data->slug)}}">{{$data->title}}</a></h3>
                                         <div class="product-price">
-                                            @php
-                                                $after_discount=($data->price-(($data->discount*$data->price)/100));
-                                            @endphp
+                                            @if ($data->discount > 0)
                                             <span class="old">${{number_format($data->price,2)}}</span>
-                                            <span>${{number_format($after_discount,2)}}</span>
+                                            <span>${{number_format($data->offer_price,2)}}</span>
+                                            @else
+                                            <span>${{number_format($data->price,2)}}</span>
+                                            @endif
                                         </div>
 
                                     </div>

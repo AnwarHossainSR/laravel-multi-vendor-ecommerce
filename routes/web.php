@@ -6,7 +6,9 @@ use App\Http\Controllers\admin\BrandController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\ProductControllert;
 use App\Http\Controllers\admin\UserController;
+use App\Http\Controllers\frontend\CartController;
 use App\Http\Controllers\frontend\IndexController;
+use App\Http\Controllers\frontend\user\CustomerController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -26,8 +28,20 @@ Route::get('/product-brand/{slug}',[IndexController::class,'productBrand'])->nam
 Route::get('/product-lists',[IndexController::class,'productLists'])->name('product-lists');
 Route::match(['get','post'],'/filter',[IndexController::class,'productFilter'])->name('shop.filter');
 
+// Cart section
+//Route::get('/add-to-cart/{slug}','CartController@addToCart')->name('add-to-cart')->middleware('user');
+Route::post('/cart/store',[CartController::class,'singleAddToCart'])->name('cart.store');
+Route::post('/cart-delete',[CartController::class,'cartRemove'])->name('cart.remove');
+//Route::post('/cart-update','CartController@cartUpdate')->name('cart.update');
+
+Route::get('/cart',function(){
+    return view('frontend.pages.cart');
+})->name('cart');
+Route::get('/checkout','CartController@checkout')->name('checkout')->middleware('user');
 
 //End frontend
+
+//Backend
 Route::group(['prefix'=>'/admin','middleware'=>['auth','admin']],function(){
     Route::get('/dashboard', [AdminController::class,'admin'])->name('admin');
     //Banners
@@ -49,6 +63,8 @@ Route::group(['prefix'=>'/admin','middleware'=>['auth','admin']],function(){
     Route::post('user_status', [UserController::class,'userStatus'])->name('user.status');
 });
 
+
+
 //seller
 
 Route::group(['prefix'=>'/seller','middleware'=>['auth','seller']],function(){
@@ -60,7 +76,16 @@ Route::group(['prefix'=>'/seller','middleware'=>['auth','seller']],function(){
 //customer
 
 Route::group(['prefix'=>'/user','middleware'=>['auth','user']],function(){
-    Route::get('/dashboard', function () {
-        return 'normal user';
-    })->name('customer');
+    Route::get('/dashboard', [CustomerController::class,'userDashboard'])->name('customer');
+    //order
+    Route::get('/order',[CustomerController::class,'orderIndex'])->name('user.order');
+    Route::get('/order/show/{id}',[CustomerController::class,'orderShow'])->name('user.order.show');
+    Route::delete('/order/delete/{id}',[CustomerController::class,'userOrderDelete'])->name('user.order.delete');
+    //address
+    Route::get('/address',[CustomerController::class,'userAddress'])->name('user.address');
+    Route::post('/address/billing',[CustomerController::class,'userBillingAddress'])->name('user.address.billing');
+    Route::post('/address/shipping',[CustomerController::class,'userShippingAddress'])->name('user.address.shipping');
+    //account
+    Route::get('/account',[CustomerController::class,'userAccount'])->name('user.account');
+    Route::post('/account/update',[CustomerController::class,'userAccountUpdate'])->name('user.account.update');
 });

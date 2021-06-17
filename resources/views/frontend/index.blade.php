@@ -129,7 +129,8 @@
                                                     <a title="Wishlist" href="{{-- {{route('add-to-wishlist',$product->slug)}} --}}" ><i class=" ti-heart "></i><span>Add to Wishlist</span></a>
                                                 </div>
                                                 <div class="product-action-2">
-                                                    <a title="Add to cart" href="{{-- {{route('add-to-cart',$product->slug)}} --}}">Add to cart</a>
+                                                    {{-- <a title="Add to cart" href="{{route('add-to-cart',$product->slug)}}">Add to cart</a> --}}
+                                                    <a title="Add to cart" href="#" data-product-id="{{ $product->id }}" data-quantity="1" class="add-to-cart" id="add-to-cart{{ $product->id }}"><i class="fa fa-cart-plus">&nbsp;Add to cart</i></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -462,68 +463,7 @@
 @endpush
 
 @push('scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 
-    {{-- <script>
-        $('.cart').click(function(){
-            var quantity=1;
-            var pro_id=$(this).data('id');
-            $.ajax({
-                url:"{{route('add-to-cart')}}",
-                type:"POST",
-                data:{
-                    _token:"{{csrf_token()}}",
-                    quantity:quantity,
-                    pro_id:pro_id
-                },
-                success:function(response){
-                    console.log(response);
-					if(typeof(response)!='object'){
-						response=$.parseJSON(response);
-					}
-					if(response.status){
-						swal('success',response.msg,'success').then(function(){
-							// document.location.href=document.location.href;
-						});
-					}
-                    else{
-                        window.location.href='user/login'
-                    }
-                }
-            })
-        });
-    </script> --}}
-    {{-- <script>
-        $('.wishlist').click(function(){
-            var quantity=1;
-            var pro_id=$(this).data('id');
-            // alert(pro_id);
-            $.ajax({
-                url:"{{route('add-to-wishlist')}}",
-                type:"POST",
-                data:{
-                    _token:"{{csrf_token()}}",
-                    quantity:quantity,
-                    pro_id:pro_id,
-                },
-                success:function(response){
-                    if(typeof(response)!='object'){
-                        response=$.parseJSON(response);
-                    }
-                    if(response.status){
-                        swal('success',response.msg,'success').then(function(){
-                            document.location.href=document.location.href;
-                        });
-                    }
-                    else{
-                        swal('error',response.msg,'error').then(function(){
-							// document.location.href=document.location.href;
-						});
-                    }
-                }
-            });
-        });
-    </script> --}}
     <script>
 
         /*==================================================================
@@ -594,6 +534,71 @@
             }
             return false
         }
+    </script>
+
+    <script>
+        $(document).on('click','.add-to-cart',function(e){
+            var pro_id = $(this).data('product-id')
+            var quantity = $(this).data('quantity')
+            e.preventDefault();
+            $.ajax({
+                url:"{{route('cart.store')}}",
+                type:"POST",
+                data:{
+                    _token:"{{csrf_token()}}",
+                    quantity:quantity,
+                    pro_id:pro_id
+                },
+                beforeSend:function(){
+                    $('#add-to-cart'+pro_id).html('<i class="fa fa-spinner fa-spin"></i> Loading...');
+                },
+                complete:function(){
+                    $('#add-to-cart'+pro_id).html('<i class="fa fa-cart-plus"></i> ADD TO CART');
+                },
+                success:function(response){
+                    response=$.parseJSON(response);
+                    if(response['status']){
+                        $('body #cart-ajax-loader').html(response['header']);
+						Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: response['message'],
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+					}
+                }
+            })
+        })
+    </script>
+
+    <script>
+        $(document).on('click','.cart-delete',function(e){
+            var cart_id = $(this).data('id')
+            e.preventDefault();
+            $.ajax({
+                url:"{{route('cart.remove')}}",
+                type:"POST",
+                data:{
+                    _token:"{{csrf_token()}}",
+                    cart_id:cart_id
+                },
+                success:function(response){
+                    response=$.parseJSON(response);
+
+                    if(response['status']){
+                        $('body #cart-ajax-loader').html(response['header']);
+						Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: response['message'],
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+					}
+                }
+            })
+        })
     </script>
 
 @endpush

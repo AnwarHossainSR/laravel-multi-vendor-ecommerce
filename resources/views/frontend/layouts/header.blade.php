@@ -1,4 +1,4 @@
-<header class="header shop">
+<header class="header shop" id="cart-ajax-loader">
     <!-- Topbar -->
     <div class="topbar">
         <div class="container">
@@ -23,8 +23,10 @@
                             @auth
                                 @if(Auth::user()->role=='admin')
                                     <li><i class="ti-user"></i> <a href="{{ route('admin') }}"  target="_blank">Dashboard</a></li>
+                                @elseif(Auth::user()->role=='seller')
+                                    <li><i class="ti-user"></i> <a href="{{ route('seller') }}"  target="_blank">Dashboard</a></li>
                                 @else
-                                    <li><i class="ti-user"></i> <a href=""  target="_blank">Dashboard</a></li>
+                                    <li><i class="ti-user"></i> <a href="{{ route('customer') }}"  target="_blank">Dashboard</a></li>
                                 @endif
                                 <li><i class="ti-power-off"></i> <a href="{{ route('logout') }}"
                                     onclick="event.preventDefault();document.getElementById('logout-form').submit();">Logout</a>
@@ -118,7 +120,7 @@
                             <a href="{{route('wishlist')}}" class="single-icon"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
                         </div> --}}
                         <div class="sinlge-bar shopping">
-                            <a href="" class="single-icon"><i class="ti-bag"></i> <span class="total-count">34</span></a>
+                            <a href="" class="single-icon"><i class="fa fa-cart-plus"></i> <span class="total-count" id="cart-counter">{{ Cart::instance('shopping')->count() }}</span></a>
                             <!-- Shopping Item -->
                             @auth
                                 <div class="shopping-item">
@@ -127,12 +129,21 @@
                                         <a href="">View Cart</a>
                                     </div>
                                     <ul class="shopping-list">
-
+                                        @foreach (Cart::instance('shopping')->content() as $item)
+                                        <li>
+                                            <a href="#" class="remove cart-delete" data-id="{{ $item->rowId }}" title="Remove this item"><i class="fa fa-remove"></i></a>
+                                            <a class="cart-img" href="{{ route('product-detail',$item->model->slug) }}"><img src="{{ $item->model->photo }}" alt="#"></a>
+                                            <h4><a href="{{ route('product-detail',$item->model->slug) }}">{{ $item->name }}</a></h4>
+                                            <p class="quantity">{{ $item->qty }} x - <span class="amount">{{ number_format($item->price,2) }}</span></p>
+                                        </li>
+                                        @endforeach
                                     </ul>
                                     <div class="bottom">
                                         <div class="total">
                                             <span>Total</span>
-                                            <span class="total-amount">cart price</span>
+                                            <span class="total-amount">
+                                                {{ Cart::subtotal() }}
+                                            </span>
                                         </div>
                                         <a href="" class="btn animate">Checkout</a>
                                     </div>

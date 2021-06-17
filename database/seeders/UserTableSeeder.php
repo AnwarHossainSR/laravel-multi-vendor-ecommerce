@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -24,7 +25,9 @@ class UserTableSeeder extends Seeder
                 'password'=>Hash::make('admin'),
                 'role'=>'admin',
                 'photo'=>'https://fakeimg.pl/350x200/?text=Hello',
-                'status'=>'active'
+                'status'=>'active',
+                'created_at'=>Carbon::now(),
+                'updated_at'=>Carbon::now()
             ],
             [
                 'full_name'=>'Mahedi Hasan',
@@ -34,7 +37,9 @@ class UserTableSeeder extends Seeder
                 'password'=>Hash::make('seller'),
                 'role'=>'seller',
                 'photo'=>'https://fakeimg.pl/350x200/?text=Hello',
-                'status'=>'active'
+                'status'=>'active',
+                'created_at'=>Carbon::now(),
+                'updated_at'=>Carbon::now()
             ],
             [
                 'full_name'=>'Ibrahim Aaraf',
@@ -44,7 +49,9 @@ class UserTableSeeder extends Seeder
                 'password'=>Hash::make('customer'),
                 'role'=>'customer',
                 'photo'=>'https://fakeimg.pl/350x200/?text=Hello',
-                'status'=>'active'
+                'status'=>'active',
+                'created_at'=>Carbon::now(),
+                'updated_at'=>Carbon::now()
             ]
         ]);
     }

@@ -24,6 +24,11 @@ class Category extends Model
     public static function getProductByCat($slug){
         return Category::with('products')->where('slug',$slug)->first();
     }
+    //
+
+    public static function cat_info($slug){
+       return Category::where('slug',$slug)->get();
+    }
 
     //
     public function child_cat(){
@@ -44,6 +49,13 @@ class Category extends Model
     }
     public static function getProductBySlug($slug){
         return Product::with(['cat_info','rel_prods','getReview'])->where('slug',$slug)->first();
+    }
+
+    //
+
+    public static function getProductByCateWithfiltered($id,$column,$variable)
+    {
+        return Product::where(['status'=>'active','cat_id'=>$id])->orderBy($column,$variable)->paginate(15);
     }
 
 }

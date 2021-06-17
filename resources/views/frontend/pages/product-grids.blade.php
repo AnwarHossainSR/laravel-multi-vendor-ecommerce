@@ -11,7 +11,7 @@
                     <div class="bread-inner">
                         <ul class="bread-list">
                             <li><a href="{{ route('home') }}">Home</a></li> /
-                            <li class="active"><a href="blog-single.html">{{ $title }}</a></li>
+                            <li class="active"><a href="{{ route('product-cat',$categoryinfo[0]->slug) }}">{{ $categoryinfo[0]->title }}</a></li>
                         </ul>
                     </div>
                 </div>
@@ -21,8 +21,8 @@
     <!-- End Breadcrumbs -->
 
     <!-- Product Style -->
-    <form action="{{route('shop.filter')}}" method="POST">
-        @csrf
+    {{-- <form action="{{route('shop.filter')}}" method="POST">
+        @csrf --}}
         <section class="product-area shop-sidebar shop section">
             <div class="container">
                 <div class="row">
@@ -138,12 +138,14 @@
                                         </div>
                                         <div class="single-shorter">
                                             <label>Sort By :</label>
-                                            <select class='sortBy' name='sortBy' onchange="this.form.submit();">
+                                            <select id="sortBy" class='sortBy' name='sortBy'>
                                                 <option value="">Default</option>
-                                                <option value="title" @if(!empty($_GET['sortBy']) && $_GET['sortBy']=='title') selected @endif>Name</option>
-                                                <option value="price" @if(!empty($_GET['sortBy']) && $_GET['sortBy']=='price') selected @endif>Price</option>
-                                                <option value="category" @if(!empty($_GET['sortBy']) && $_GET['sortBy']=='category') selected @endif>Category</option>
-                                                <option value="brand" @if(!empty($_GET['sortBy']) && $_GET['sortBy']=='brand') selected @endif>Brand</option>
+                                                <option value="priceAsc" @if(!empty($_GET['sortBy']) && $_GET['sortBy']=='priceAsc') selected @endif>Price - Lower TO Higher</option>
+                                                <option value="priceDesc" @if(!empty($_GET['sortBy']) && $_GET['sortBy']=='priceDesc') selected @endif>Price - Higher To Lower</option>
+                                                <option value="titleAsc" @if(!empty($_GET['sortBy']) && $_GET['sortBy']=='titleAsc') selected @endif>Alphabetical Ascending</option>
+                                                <option value="titleDesc" @if(!empty($_GET['sortBy']) && $_GET['sortBy']=='titleDesc') selected @endif>Alphabetical Descending</option>
+                                                <option value="disAsc" @if(!empty($_GET['sortBy']) && $_GET['sortBy']=='disAsc') selected @endif>Discount - Lower To Higher</option>
+                                                <option value="disDesc" @if(!empty($_GET['sortBy']) && $_GET['sortBy']=='disDesc') selected @endif>Discount - Higher To Lower</option>
                                             </select>
                                         </div>
                                     </div>
@@ -155,57 +157,22 @@
                                 <!--/ End Shop Top -->
                             </div>
                         </div>
-                        <div class="row">
-                            {{-- {{$products}} --}}
-                            @if(count($products)>0)
-                                @foreach($products as $product)
-                                    <div class="col-lg-4 col-md-6 col-12">
-                                        <div class="single-product">
-                                            <div class="product-img">
-                                                <a href="{{route('product-detail',$product->slug)}}">
-                                                @php
-                                                    $photo=explode(',',$product->photo);
-                                                @endphp
-                                                <img class="default-img" src="{{$photo[0]}}" alt="product photo">
-                                                <img class="hover-img" src="{{$photo[0]}}" alt="product photo">
-                                                    @if($product->discount)
-                                                        <span class="price-dec">{{$product->discount}} % Off</span>
-                                                    @endif
-                                                </a>
-                                                <div class="button-head">
-                                                    <div class="product-action">
-                                                        <a data-toggle="modal" data-target="#{{$product->id}}" title="Quick View" href="#"><i class=" ti-eye"></i><span>Quick Shop</span></a>
-                                                        <a title="Wishlist" href="" class="wishlist" data-id="{{$product->id}}"><i class=" ti-heart "></i><span>Add to Wishlist</span></a>
-                                                    </div>
-                                                    <div class="product-action-2">
-                                                        <a title="Add to cart" href="">Add to cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="product-content">
-                                                <h3><a href="{{route('product-detail',$product->slug)}}">{{$product->title}}</a></h3>
-                                                {{-- @php
-                                                    $after_discount=($product->price-($product->price*$product->discount)/100);
-                                                @endphp --}}
-                                                <span>${{number_format($product->offer_price,2)}}</span>
-                                                <del style="padding-left:4%;">${{number_format($product->price,2)}}</del>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            @else
-                                    <h4 class="text-warning" style="margin:100px auto;">There are no products.</h4>
-                            @endif
-
-
+                        <div class="row" id="product-data">
+                            @include('frontend.layouts.single-product')
 
                         </div>
-
+                        <div class="mx-4 mt-5 d-flex justify-content-center">
+                            <div class="ajax-load text-center" style="display: none">
+                                <img id="img-loader" src="{{ asset('frontend') }}/img/loader.gif" style="width: 40%;">
+                            </div>
+                            <button id="load-more-data" class="btn btn-outline-danger text-light">Load more</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
-    </form>
+     {{-- </form> --}}
+
 
     <!--/ End Product Style 1  -->
 
@@ -422,5 +389,50 @@
                 "  -  "+m_currency + $("#slider-range").slider("values", 1));
             }
         })
+    </script>
+    <script>
+        $('#sortBy').change(function(){
+            var sort = $('#sortBy').val()
+            window.location = "{{ url(''.$route.'') }}/{{ $categoryinfo[0]->slug }}?sort="+sort
+        });
+    </script>
+    <script>
+        function loadMoreData(page) {
+            $.ajax({
+                url:'?page='+page,
+                type:'get',
+                beforeSend:function(){
+                    $('#load-more-data').hide()
+                    $('.ajax-load').show();
+                }
+            }).done(function (data) {
+                setTimeout(function(){
+                    if(data.html == ''){
+                        $('#img-loader').hide();
+                        $('.ajax-load').append('<p class="text-danger">no more product availabe at this moment</p>');
+                        return;
+                    }
+                    $('.ajax-load').hide();
+                    $('#load-more-data').show();
+                    $('#product-data').append(data.html);
+                },3000);
+
+             }).fail(function () {
+                 alert('somethisg is wrong, please try again');
+              })
+         }
+        var page = 1;
+        $('#load-more-data').click(function () {
+            page++
+            loadMoreData(page)
+        })
+
+        /*  $(window).scroll(function () {
+            if($(window).scrollTop() + $(window).height()+70 >= $(document).height()){
+                console.log('scroll')
+                page++
+                loadMoreData(page)
+            }
+          }) */
     </script>
 @endpush

@@ -23,15 +23,44 @@ class IndexController extends Controller
         return \view('frontend.index',\compact('banners','categories','products','featured'));
     }
 
-    public function productCategory($slug)
+    public function productCategory(Request $request,$slug)
     {
-        $products=Category::getProductByCat($slug);
-        $title = $products->title;
+        $categories=Category::getProductByCat($slug);
+        if($categories == null){
+            return \view('errors.404');
+        }
+
+        if($request->sort && $request != null){
+            $sort = $request->sort;
+            if($sort == 'priceAsc'){
+                $products = Category::getProductByCateWithfiltered($categories->id,'offer_price','ASC');
+            }elseif ($sort == 'priceDesc') {
+                $products = Category::getProductByCateWithfiltered($categories->id,'offer_price','DESC');
+            }elseif ($sort == 'titleAsc') {
+                $products = Category::getProductByCateWithfiltered($categories->id,'title','ASC');
+            }elseif ($sort == 'titleDesc') {
+                $products = Category::getProductByCateWithfiltered($categories->id,'title','DESC');
+            }elseif ($sort == 'disAsc') {
+                $products = Category::getProductByCateWithfiltered($categories->id,'price','ASC');
+            }elseif ($sort == 'disDesc') {
+                $products = Category::getProductByCateWithfiltered($categories->id,'price','DESC');
+            }
+        }else{
+            $products=$categories->products()->paginate(15);
+        }
+
+        $categoryinfo = Category::cat_info($slug);
+        $route = 'product-cat';
         $recent_products=Product::where('status','active')->orderBy('id','DESC')->limit(3)->get();
         $menu=Category::getAllParentWithChild();
         $max=DB::table('products')->max('price');
         $brands=DB::table('brands')->orderBy('title','ASC')->where('status','active')->get();
-        return view('frontend.pages.product-grids',\compact('recent_products','menu','max','brands','title'))->with('products',$products->products);
+
+        if($request->ajax()){
+            $view = \view('frontend.layouts.single-product',\compact('products'))->render();
+            return \response()->json(['html'=>$view]);
+        }
+        return view('frontend.pages.product-grids',\compact('recent_products','menu','max','brands','categoryinfo','route','products'));
 
        /*  if(request()->is('e-shop.loc/product-grids')){
             return view('frontend.pages.product-grids')->with('products',$products->products)->with('recent_products',$recent_products);
@@ -58,7 +87,12 @@ class IndexController extends Controller
 
     }
 
-    public function productLists(){
+
+
+
+
+
+    /* public function productLists(){
         $products=Product::query();
 
         if(!empty($_GET['category'])){
@@ -155,5 +189,5 @@ class IndexController extends Controller
         else{
             return redirect()->route('product-lists',$catURL.$brandURL.$priceRangeURL.$showURL.$sortByURL);
         }
-}
+    } */
 }

@@ -29,4 +29,10 @@ class Product extends Model
     public static function getProductBySlug($slug){
         return Product::with(['cat_info','rel_prods'])->where('slug',$slug)->first();
     }
+
+    //
+    public static function getProductByCart($id)
+    {
+        return self::where('id',$id)->get()->toArray();
+    }
 }
