@@ -1,5 +1,5 @@
 @extends('frontend.layouts.master')
-@section('title','Cart Page')
+@section('title','wishlist Page')
 @section('main-content')
 <!-- Breadcrumbs -->
 <div class="breadcrumbs">
@@ -9,7 +9,7 @@
                 <div class="bread-inner">
                     <ul class="bread-list">
                         <li><a href="{{ route('home') }}">Home<i class="ti-arrow-right"></i></a></li>
-                        <li class="active"><a href="{{ route('cart') }}">Cart</a></li>
+                        <li class="active"><a href="{{ route('wishlist') }}">Wishlist</a></li>
                     </ul>
                 </div>
             </div>
@@ -19,7 +19,7 @@
 <!-- End Breadcrumbs -->
 
 <!-- Shopping Cart -->
-@include('frontend.pages.cart.shopping')
+@include('frontend.pages.wishlist.wish')
 <!--/ End Shopping Cart -->
 @endsection
 @push('scripts')

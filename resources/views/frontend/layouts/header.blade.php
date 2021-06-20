@@ -91,25 +91,28 @@
                         <!-- Search Form -->
                         <div class="sinlge-bar shopping">
 
-                            <a href="" class="single-icon"><i class="fa fa-heart-o"></i> <span class="total-count">wishlist</span></a>
+                            <a href="{{ route('wishlist') }}" class="single-icon"><i class="fa fa-heart-o"></i> <span class="total-count">{{ Cart::instance('wishlist')->count() }}</span></a>
                             <!-- Shopping Item -->
 
                                 <div class="shopping-item">
                                     <div class="dropdown-cart-header">
-                                        <span> Items</span>
-                                        <a href="">View Wishlist</a>
+                                        <span> Items {{ Cart::instance('wishlist')->count() }}</span>
+                                        <a href="{{ route('wishlist') }}">View Wishlist</a>
                                     </div>
                                     <ul class="shopping-list">
-                                        {{-- {{Helper::getAllProductFromCart()}} --}}
-                                            photo
-                                                    <li>
-                                                       operation on wishlist
-                                                    </li>
+                                        @foreach (Cart::instance('wishlist')->content() as $item)
+                                        <li>
+                                            <a href="#" class="remove wishlist-delete" data-id="{{ $item->rowId }}" title="Remove this item"><i class="fa fa-remove"></i></a>
+                                            <a class="cart-img" href="{{ route('product-detail',$item->model->slug) }}"><img src="{{ $item->model->photo }}" alt="#"></a>
+                                            <h4><a href="{{ route('product-detail',$item->model->slug) }}">{{ $item->name }}</a></h4>
+                                            <p class="quantity">{{ $item->qty }} x - <span class="amount">{{ number_format($item->price,2) }}</span></p>
+                                        </li>
+                                        @endforeach
                                     </ul>
                                     <div class="bottom">
                                         <div class="total">
                                             <span>Total</span>
-                                            <span class="total-amount">$455</span>
+                                            <span class="total-amount">${{ Cart::subtotal() }}</span>
                                         </div>
                                         <a href="" class="btn animate">Cart</a>
                                     </div>
@@ -125,18 +128,20 @@
                             @auth
                                 <div class="shopping-item">
                                     <div class="dropdown-cart-header">
-                                        <span> Items</span>
+                                        <span> Items {{ Cart::instance('shopping')->count() >0 }}</span>
                                         <a href="{{ route('cart') }}">View Cart</a>
                                     </div>
                                     <ul class="shopping-list">
-                                        @foreach (Cart::instance('shopping')->content() as $item)
-                                        <li>
-                                            <a href="#" class="remove cart-delete" data-id="{{ $item->rowId }}" title="Remove this item"><i class="fa fa-remove"></i></a>
-                                            <a class="cart-img" href="{{ route('product-detail',$item->model->slug) }}"><img src="{{ $item->model->photo }}" alt="#"></a>
-                                            <h4><a href="{{ route('product-detail',$item->model->slug) }}">{{ $item->name }}</a></h4>
-                                            <p class="quantity">{{ $item->qty }} x - <span class="amount">{{ number_format($item->price,2) }}</span></p>
-                                        </li>
-                                        @endforeach
+                                        @if(Cart::instance('shopping')->count())
+                                            @foreach (Cart::instance('shopping')->content() as $item)
+                                            <li>
+                                                <a href="#" class="remove cart-delete" data-id="{{ $item->rowId }}" title="Remove this item"><i class="fa fa-remove"></i></a>
+                                                <a class="cart-img" href="{{ route('product-detail',$item->model->slug) }}"><img src="{{ $item->model->photo }}" alt="#"></a>
+                                                <h4><a href="{{ route('product-detail',$item->model->slug) }}">{{ $item->name }}</a></h4>
+                                                <p class="quantity">{{ $item->qty }} x - <span class="amount">{{ number_format($item->price,2) }}</span></p>
+                                            </li>
+                                            @endforeach
+                                        @endif
                                     </ul>
                                     <div class="bottom">
                                         <div class="total">
@@ -145,7 +150,7 @@
                                                 {{ Cart::subtotal() }}
                                             </span>
                                         </div>
-                                        <a href="" class="btn animate">Checkout</a>
+                                        <a href="{{ route('checkout') }}" class="btn animate">Checkout</a>
                                     </div>
                                 </div>
                             @endauth

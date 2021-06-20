@@ -126,7 +126,7 @@
                                             <div class="button-head">
                                                 <div class="product-action">
                                                     <a data-toggle="modal" data-target="#{{$product->id}}" title="Quick View" href="#"><i class=" ti-eye"></i><span>Quick Shop</span></a>
-                                                    <a title="Wishlist" href="{{-- {{route('add-to-wishlist',$product->slug)}} --}}" ><i class=" ti-heart "></i><span>Add to Wishlist</span></a>
+                                                    <a title="Wishlist" href="#" data-product-id="{{ $product->id }}" data-quantity="1" class="add-to-wishlist" id="add-to-wishlist{{ $product->id }}"><i class=" ti-heart "></i><span>Add to Wishlist</span></a>
                                                 </div>
                                                 <div class="product-action-2">
                                                     {{-- <a title="Add to cart" href="{{route('add-to-cart',$product->slug)}}">Add to cart</a> --}}
@@ -216,10 +216,11 @@
                                 <div class="button-head">
                                     <div class="product-action">
                                         <a data-toggle="modal" data-target="#{{$product->id}}" title="Quick View" href="#"><i class=" ti-eye"></i><span>Quick Shop</span></a>
-                                        <a title="Wishlist" href="{{-- {{route('add-to-wishlist',$product->slug)}} --}}" ><i class=" ti-heart "></i><span>Add to Wishlist</span></a>
+                                        <a title="Wishlist" href="#" data-product-id="{{ $product->id }}" data-quantity="1" class="add-to-wishlist" id="add-to-wishlist{{ $product->id }}"><i class=" ti-heart "></i><span>Add to Wishlist</span></a>
                                     </div>
                                     <div class="product-action-2">
-                                        <a href="{{-- {{route('add-to-cart',$product->slug)}} --}}">Add to cart</a>
+                                        {{-- <a title="Add to cart" href="{{route('add-to-cart',$product->slug)}}">Add to cart</a> --}}
+                                        <a title="Add to cart" href="#" data-product-id="{{ $product->id }}" data-quantity="1" class="add-to-cart" id="add-to-cart{{ $product->id }}"><i class="fa fa-cart-plus">&nbsp;Add to cart</i></a>
                                     </div>
                                 </div>
                             </div>
@@ -420,6 +421,7 @@
 @push('styles')
     <script type='text/javascript' src='https://platform-api.sharethis.com/js/sharethis.js#property=5f2e5abf393162001291e431&product=inline-share-buttons' async='async'></script>
     <script type='text/javascript' src='https://platform-api.sharethis.com/js/sharethis.js#property=5f2e5abf393162001291e431&product=inline-share-buttons' async='async'></script>
+
     <style>
         /* Banner Sliding */
         #Gslider .carousel-inner {
@@ -463,6 +465,8 @@
 @endpush
 
 @push('scripts')
+<script type='text/javascript' src="{{ asset('frontend') }}/js/cartadd.js"></script>
+
 
     <script>
 
@@ -536,69 +540,41 @@
         }
     </script>
 
-    <script>
-        $(document).on('click','.add-to-cart',function(e){
-            var pro_id = $(this).data('product-id')
-            var quantity = $(this).data('quantity')
-            e.preventDefault();
-            $.ajax({
-                url:"{{route('cart.store')}}",
-                type:"POST",
-                data:{
-                    _token:"{{csrf_token()}}",
-                    quantity:quantity,
-                    pro_id:pro_id
-                },
-                beforeSend:function(){
-                    $('#add-to-cart'+pro_id).html('<i class="fa fa-spinner fa-spin"></i> Loading...');
-                },
-                complete:function(){
-                    $('#add-to-cart'+pro_id).html('<i class="fa fa-cart-plus"></i> ADD TO CART');
-                },
-                success:function(response){
-                    response=$.parseJSON(response);
-                    if(response['status']){
-                        $('body #cart-ajax-loader').html(response['header']);
-						Swal.fire({
-                            position: 'center',
-                            icon: 'success',
-                            title: response['message'],
-                            showConfirmButton: false,
-                            timer: 1500
-                        })
-					}
+
+
+<script>
+    $(document).on('click','.add-to-wishlist',function(e){
+        var pro_id = $(this).data('product-id')
+        var quantity = $(this).data('quantity')
+        e.preventDefault();
+        $.ajax({
+            url:"{{route('wishlist.store')}}",
+            type:"POST",
+            data:{
+                _token:"{{csrf_token()}}",
+                quantity:quantity,
+                pro_id:pro_id
+            },
+            beforeSend:function(){
+                $('#add-to-wishlist'+pro_id).html('<i class="fa fa-spinner fa-spin"></i> Loading...');
+            },
+            complete:function(){
+                $('#add-to-wishlist'+pro_id).html('<i class=" ti-heart "></i>');
+            },
+            success:function(response){
+                response=$.parseJSON(response);
+                if(response['status']){
+                    $('body #cart-ajax-loader').html(response['header']);
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: response['message'],
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
                 }
-            })
-        })
-    </script>
-
-    <script>
-        $(document).on('click','.cart-delete',function(e){
-            var cart_id = $(this).data('id')
-            e.preventDefault();
-            $.ajax({
-                url:"{{route('cart.remove')}}",
-                type:"POST",
-                data:{
-                    _token:"{{csrf_token()}}",
-                    cart_id:cart_id
-                },
-                success:function(response){
-                    response=$.parseJSON(response);
-
-                    if(response['status']){
-                        $('body #cart-ajax-loader').html(response['header']);
-						Swal.fire({
-                            position: 'center',
-                            icon: 'success',
-                            title: response['message'],
-                            showConfirmButton: false,
-                            timer: 1500
-                        })
-					}
-                }
-            })
-        })
-    </script>
-
+            }
+        });
+    });
+</script>
 @endpush

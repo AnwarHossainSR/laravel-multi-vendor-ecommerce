@@ -29,7 +29,7 @@ class ProductFactory extends Factory
             'slug' => $this->faker->unique()->slug,
             'summary' => $this->faker->text(),
             'description' => $this->faker->text(),
-            'stock' => $this->faker->numberBetween(2,10),
+            'stock' => $this->faker->numberBetween(1000,20000),
             'brand_id' => $this->faker->randomElement(Brand::pluck('id')->toArray()),
             'vendor_id' => $this->faker->randomElement(User::pluck('id')->toArray()),
             'cat_id' => $this->faker->randomElement(Category::where('is_parent',1)->pluck('id')->toArray()),

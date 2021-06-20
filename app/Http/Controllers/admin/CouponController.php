@@ -40,7 +40,7 @@ class CouponController extends Controller
     {
         // return $request->all();
         $this->validate($request,[
-            'code'=>'string|required',
+            'code'=>'string|required|unique:coupons,code',
             'type'=>'required|in:fixed,percent',
             'value'=>'required|numeric',
             'status'=>'required|in:active,inactive'
@@ -94,7 +94,7 @@ class CouponController extends Controller
     {
         $coupon=Coupon::find($id);
         $this->validate($request,[
-            'code'=>'string|required',
+            'code'=>'string|required:unique',
             'type'=>'required|in:fixed,percent',
             'value'=>'required|numeric',
             'status'=>'required|in:active,inactive'
@@ -156,5 +156,18 @@ class CouponController extends Controller
             request()->session()->flash('success','Coupon successfully applied');
             return redirect()->back();
         }
+    }
+
+    public function couponStatus(Request $request)
+    {
+        if($request->mode == 'true'){
+            //DB::table('banner')->where('id',$request->id)->update(['status'=>'active']);
+            Coupon::where("id", $request->id)->update(['status'=>'active']);
+        }
+        else{
+            Coupon::where("id", $request->id)->update(['status'=>'inactive']);
+        }
+
+        return \response()->json(['msg'=>'status successfully updated','status'=>true]);
     }
 }
