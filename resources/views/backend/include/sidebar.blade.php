@@ -36,6 +36,12 @@
                   <li><a href="{{ route('product.create') }}">Create Product</a></li>
                 </ul>
               </li>
+              <li><a href="#exampledropdownDropdownshipping" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-car" aria-hidden="true" style="font-size: 20px;"></i></i>Shipping </a>
+                <ul id="exampledropdownDropdownshipping" class="collapse list-unstyled ">
+                  <li><a href="{{ route('shipping.index') }}">All Shipping</a></li>
+                  <li><a href="{{ route('shipping.create') }}">Create Shipping</a></li>
+                </ul>
+              </li>
               <li><a href="#exampledropdownDropdown4" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-cart-plus" aria-hidden="true" style="font-size: 20px;"></i></i>Cart </a>
                 <ul id="exampledropdownDropdown4" class="collapse list-unstyled ">
                   <li><a href="#">Page</a></li>
@@ -73,9 +79,8 @@
               </li>
               <li><a href="#exampledropdownDropdown9" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-check-square-o" aria-hidden="true"></i> Coupon </a>
                 <ul id="exampledropdownDropdown9" class="collapse list-unstyled ">
-                  <li><a href="#">Page</a></li>
-                  <li><a href="#">Page</a></li>
-                  <li><a href="#">Page</a></li>
+                  <li><a href="{{ route('coupon.index') }}">All Coupon</a></li>
+                  <li><a href="{{ route('coupon.create') }}">Add Coupon</a></li>
                 </ul>
               </li>
               <li><a href="#exampledropdownDropdown10" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-users" aria-hidden="true"></i> Users </a>

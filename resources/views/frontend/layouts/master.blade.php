@@ -3,7 +3,7 @@
 <head>
 	@include('frontend.layouts.head')
 </head>
-<body class="js">
+<body class="js" id="body">
 
 	<!-- Preloader -->
 	<div class="preloader">

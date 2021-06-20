@@ -1,5 +1,6 @@
 <!-- Meta Tag -->
 @yield('meta')
+<meta name="_token" content="{{ csrf_token() }}">
 <!-- Title Tag  -->
 <title>@yield('title')</title>
 <!-- Favicon -->
@@ -36,6 +37,7 @@
 <link rel="stylesheet" href="{{asset('frontend/css/reset.css')}}">
 <link rel="stylesheet" href="{{asset('frontend/css/style.css')}}">
 <link rel="stylesheet" href="{{asset('frontend/css/responsive.css')}}">
+@routes
 <script type='text/javascript' src='https://platform-api.sharethis.com/js/sharethis.js#property=5f2e5abf393162001291e431&product=inline-share-buttons' async='async'></script>
 <style>
     /* Multilevel dropdown */
@@ -57,6 +59,7 @@
     margin-left: 0px;
     }
 
-    /*
+
 </style>
+
 @stack('styles')
