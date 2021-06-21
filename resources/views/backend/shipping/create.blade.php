@@ -30,7 +30,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group-material">
-                              <input id="register-username" type="date" value="{{ old('delivery_time') }}" name="delivery_time" class="input-material">
+                              <input id="register-username" type="text" value="{{ old('delivery_time') }}" name="delivery_time" class="input-material">
 
                               @error('delivery_time')
                                   <span class="text-danger">{{$message}}</span>

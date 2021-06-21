@@ -97,10 +97,9 @@ class CartController extends Controller
     public function couponAdd(Request $request)
     {
         $coupon = Coupon::findByCode($request->code);
-        $total = Cart::instance('shopping')->subtotal();
-        $discountTotal = $coupon->afterDiscount($total);
         if($coupon){
-
+            $total = Cart::instance('shopping')->subtotal();
+            $discountTotal = $coupon->afterDiscount($total);
             $request->session()->put('coupon', [
                 'id'=>$coupon->id,
                 'value'=>$coupon->value,

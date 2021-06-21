@@ -9,5 +9,4 @@ class Shipping extends Model
 {
     use HasFactory;
     protected $fillable=['shipping_address','delivery_time','delivery_charge','status'];
-    protected $dates = ['delivery_time'];
 }
