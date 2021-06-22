@@ -38,7 +38,7 @@
                                 @php
                                     $date = explode(' ',$shipping->delivery_time)
                                 @endphp
-                              <input id="register-username" type="date" name="delivery_time" value="{{ $shipping->delivery_time->format('Y-m-d') }}"  required class="input-material">
+                              <input id="register-username" type="text" name="delivery_time" value="{{ $shipping->delivery_time }}"  required class="input-material">
                               <label for="register-username" class="label-material">Delivery Time</label>
                               @error('delivery_time')
                                   <span class="text-danger">{{$message}}</span>

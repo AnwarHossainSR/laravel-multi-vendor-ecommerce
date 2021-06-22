@@ -11,8 +11,5 @@ class OrderController extends Controller
     {
         return \view('frontend.pages.order.index');
     }
-    public function orderStore(Request $request)
-    {
-        return $request;
-    }
+
 }

@@ -55,10 +55,14 @@ Route::group(['middleware'=>'auth'],function(){
     //checkout
     Route::prefix('checkout')->group(function () {
         Route::get('',[CheckoutController::class,'checkout'])->name('checkout');
+        Route::post('/shipping',[CheckoutController::class,'checkoutShipping'])->name('checkout.shipping');
+        Route::post('/payment',[CheckoutController::class,'checkoutPayment'])->name('checkout.payment');
+        Route::post('/create-order',[CheckoutController::class,'checkoutOrder'])->name('checkout.order');
+        Route::post('/order-store',[CheckoutController::class,'orderStore'])->name('checkout.store');
     });
     Route::prefix('order')->group(function () {
         Route::get('',[OrderController::class,'order'])->name('order')->middleware('user');
-        Route::post('/store',[OrderController::class,'orderStore'])->name('order.store')->middleware('user');
+
     });
 });
 
