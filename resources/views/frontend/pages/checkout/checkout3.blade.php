@@ -37,8 +37,6 @@
 
                                             <li class="order_subtotal" data-price="{{Cart::instance('shopping')->subtotal()}}">Cart Total<span>${{Cart::instance('shopping')->total()}}</span></li>
                                             <li class="order_subtotal">Tax<span>${{Cart::instance('shopping')->tax()}}</span></li>
-                                           {{--  <li class="order_subtotal">Shipping<span>${{$shipping->delivery_charge}}</span></li> --}}
-
                                             @if(session('coupon'))
                                             <li class="coupon_price" data-price="{{session('coupon')['discount']}}">You Save<span>${{session('coupon')['discount']}}</span></li>
                                             @endif

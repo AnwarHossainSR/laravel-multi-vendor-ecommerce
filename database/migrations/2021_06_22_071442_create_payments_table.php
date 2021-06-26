@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateShippingsTable extends Migration
+class CreatePaymentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateShippingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('shippings', function (Blueprint $table) {
+        Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->string('shipping_address');
-            $table->string('delivery_time');
-            $table->decimal('delivery_charge')->default(0);
-            $table->enum('status',['active','inactive'])->default('active');
+            $table->string('card_no');
+            $table->string('expire');
+            $table->string('security_code');
+            $table->string('order_no')->unique();
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateShippingsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('shippings');
+        Schema::dropIfExists('payments');
     }
 }

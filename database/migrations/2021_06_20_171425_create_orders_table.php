@@ -21,6 +21,7 @@ class CreateOrdersTable extends Migration
             $table->float('sub_total')->default(0);
             $table->unsignedBigInteger('shipping_id')->default(0)->nullable();
             $table->float('coupon')->default(0)->nullable();
+            $table->float('delivery_charge')->default(0);
             $table->float('total_amount')->default(0);
             //$table->integer('quantity')->default(0)->nullable;
             $table->enum('payment_method',['cod','paypal'])->default('cod');

@@ -67,9 +67,6 @@
                                         <button type="submit" class="btn coupon-btn">Apply</button>
                                     </form>
                                 </div>
-                                <div class="checkbox">
-                                    <label class="checkbox-inline" for="2"><input name="news" id="2" type="checkbox"> Shipping (+10$)</label>
-                                </div>
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-7 col-12">
@@ -90,7 +87,9 @@
                                     @endif
                                 </ul>
                                 <div class="button5">
-                                    <a href="{{ route('checkout') }}" class="btn">Checkout</a>
+                                    @if(Cart::instance('shopping')->count() > 0)
+                                        <a href="{{ route('checkout') }}" class="btn">Checkout</a>
+                                    @endif
                                     <a href="{{ route('home') }}" class="btn">Continue shopping</a>
                                 </div>
                             </div>

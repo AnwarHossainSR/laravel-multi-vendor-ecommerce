@@ -74,9 +74,9 @@
                         <div class="search-bar">
                             <select>
                                 <option >All Category</option>
-                                {{-- @foreach ($categories as $category)
+                                @foreach ($category_header as $category)
                                 <option value="{{ $category->id }}">{{ $category->title }}</option>
-                                @endforeach --}}
+                                @endforeach
                             </select>
                             <form method="POST" action="">
                                 @csrf
@@ -128,11 +128,11 @@
                             @auth
                                 <div class="shopping-item">
                                     <div class="dropdown-cart-header">
-                                        <span> Items {{ Cart::instance('shopping')->count() >0 }}</span>
+                                        <span> Items {{ Cart::instance('shopping')->count() }}</span>
                                         <a href="{{ route('cart') }}">View Cart</a>
                                     </div>
                                     <ul class="shopping-list">
-                                        @if(Cart::instance('shopping')->count())
+                                        @if(Cart::instance('shopping')->count() > 0)
                                             @foreach (Cart::instance('shopping')->content() as $item)
                                             <li>
                                                 <a href="#" class="remove cart-delete" data-id="{{ $item->rowId }}" title="Remove this item"><i class="fa fa-remove"></i></a>
