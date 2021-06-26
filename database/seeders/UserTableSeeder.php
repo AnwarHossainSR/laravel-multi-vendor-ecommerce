@@ -25,6 +25,7 @@ class UserTableSeeder extends Seeder
                 'password'=>Hash::make('admin'),
                 'role'=>'admin',
                 'photo'=>'https://fakeimg.pl/350x200/?text=Hello',
+                'phone'=>'01729532097',
                 'status'=>'active',
                 'created_at'=>Carbon::now(),
                 'updated_at'=>Carbon::now()
@@ -37,6 +38,7 @@ class UserTableSeeder extends Seeder
                 'password'=>Hash::make('seller'),
                 'role'=>'seller',
                 'photo'=>'https://fakeimg.pl/350x200/?text=Hello',
+                'phone'=>'01729532097',
                 'status'=>'active',
                 'created_at'=>Carbon::now(),
                 'updated_at'=>Carbon::now()
@@ -49,6 +51,7 @@ class UserTableSeeder extends Seeder
                 'password'=>Hash::make('customer'),
                 'role'=>'customer',
                 'photo'=>'https://fakeimg.pl/350x200/?text=Hello',
+                'phone'=>'01729532097',
                 'status'=>'active',
                 'created_at'=>Carbon::now(),
                 'updated_at'=>Carbon::now()

@@ -19,8 +19,12 @@ class IndexController extends Controller
         $banners=Banner::where('status','active')->limit(3)->orderBy('id','DESC')->get();
         // return $banner;
         $products=Product::where('status','active')->orderBy('id','DESC')->limit(8)->get();
+        $product_hot=Product::where(['status'=>'active','condition'=>'hot'])->orderBy('id','DESC')->limit(8)->get();
         $categories=Category::where(['status'=>'active','is_parent'=>1])->limit(3)->orderBy('title','ASC')->get();
-        return \view('frontend.index',\compact('banners','categories','products','featured'));
+        $category_header=Category::where(['status'=>'active'])->get()->random(6);
+        //inRandomOrder()->limit(10)
+        $product_latest=Product::where('status','active')->orderBy('id','DESC')->limit(8)->get();
+        return \view('frontend.index',\compact('banners','categories','category_header','products','featured','product_latest','product_hot'));
     }
 
     public function productCategory(Request $request,$slug)

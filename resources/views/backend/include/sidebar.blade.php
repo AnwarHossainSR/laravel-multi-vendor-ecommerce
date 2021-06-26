@@ -51,9 +51,7 @@
               </li>
               <li><a href="#exampledropdownDropdown5" aria-expanded="false" data-toggle="collapse"> <i class="icon-layers"></i>Order Manage </a>
                 <ul id="exampledropdownDropdown5" class="collapse list-unstyled ">
-                  <li><a href="#">Page</a></li>
-                  <li><a href="#">Page</a></li>
-                  <li><a href="#">Page</a></li>
+                  <li><a href="{{ route('orders.index') }}">Order</a></li>
                 </ul>
               </li>
               <li><a href="#exampledropdownDropdown6" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-tags" aria-hidden="true"></i> </i>Post Tag </a>

@@ -202,14 +202,14 @@
         <div class="row">
             <div class="col-12">
                 <div class="owl-carousel popular-slider">
-                    @foreach($products as $product)
+                    @foreach($product_hot as $product)
                         @if($product->condition=='hot')
                             <!-- Start Single Product -->
                         <div class="single-product">
                             <div class="product-img">
                                 <a href="{{route('product-detail',$product->slug)}}">
 
-                                    <img class="default-img" src="{{$product->photo}}" alt="product photo
+                                    <img class="default-img" src="{{$product->photo}}" alt="product photo">
                                     <img class="hover-img" src="{{$product->photo}}" alt="product photo">
                                     <span class="out-of-stock">Hot</span>
                                 </a>
@@ -248,53 +248,74 @@
 <!-- End Most Popular Area -->
 
 <!-- Start Shop Home List  -->
-{{-- <section class="shop-home-list section">
+<div class="product-area most-popular section">
     <div class="container">
         <div class="row">
-            <div class="col-lg-12 col-md-12 col-12">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="shop-section-title">
-                            <h1>Latest Items</h1>
-                        </div>
-                    </div>
+            <div class="col-12">
+                <div class="section-title">
+                    <h2>Latest Item</h2>
                 </div>
-                <div class="row">
-                    @php
-                        $product_lists=DB::table('products')->where('status','active')->orderBy('id','DESC')->limit(6)->get();
-                    @endphp
-                    @foreach($product_lists as $product)
-                        <div class="col-md-4">
-                            <!-- Start Single List  -->
-                            <div class="single-list">
-                                <div class="row">
-                                <div class="col-lg-6 col-md-6 col-12">
-                                    <div class="list-image overlay">
-                                        @php
-                                            $photo=explode(',',$product->photo);
-                                            // dd($photo);
-                                        @endphp
-                                        <img src="{{$photo[0]}}" alt="{{$photo[0]}}">
-                                        <a href="{{route('add-to-cart',$product->slug)}}" class="buy"><i class="fa fa-shopping-bag"></i></a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="owl-carousel popular-slider">
+                    @foreach($product_latest as $product)
+                            <!-- Start Single Product -->
+                        <div class="single-product">
+                            <div class="product-img">
+                                <a href="{{route('product-detail',$product->slug)}}">
+
+                                    <img class="default-img" src="{{$product->photo}}" alt="product photo">
+                                    <img class="hover-img" src="{{$product->photo}}" alt="product photo">
+                                    @if($product->stock<=0)
+                                        <span class="out-of-stock">Sale out</span>
+                                    @elseif($product->condition=='new')
+                                        <span class="new">New</span
+                                    @elseif($product->condition=='hot')
+                                        <span class="hot">Hot</span>
+                                    @elseif($product->condition=='popular')
+                                        <span class="popular">Popular</span>
+                                    @elseif($product->condition=='winter')
+                                        <span class="new">Winter</span>
+                                    @else
+                                        <span class="price-dec">{{$product->discount}}% Off</span>
+                                    @endif
+                                </a>
+                                <div class="button-head">
+                                    <div class="product-action">
+                                        <a data-toggle="modal" data-target="#{{$product->id}}" title="Quick View" href="#"><i class=" ti-eye"></i><span>Quick Shop</span></a>
+                                        <a title="Wishlist" href="#" data-product-id="{{ $product->id }}" data-quantity="1" class="add-to-wishlist" id="add-to-wishlist{{ $product->id }}"><i class=" ti-heart "></i><span>Add to Wishlist</span></a>
                                     </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-12 no-padding">
-                                    <div class="content">
-                                        <h4 class="title"><a href="#">{{$product->title}}</a></h4>
-                                        <p class="price with-discount">${{number_format($product->discount,2)}}</p>
+                                    <div class="product-action-2">
+                                        {{-- <a title="Add to cart" href="{{route('add-to-cart',$product->slug)}}">Add to cart</a> --}}
+                                        <a title="Add to cart" href="#" data-product-id="{{ $product->id }}" data-quantity="1" class="add-to-cart" id="add-to-cart{{ $product->id }}"><i class="fa fa-cart-plus">&nbsp;Add to cart</i></a>
                                     </div>
-                                </div>
                                 </div>
                             </div>
-                            <!-- End Single List  -->
-                        </div>
-                    @endforeach
+                            <div class="product-content">
+                                <h3><a href="{{route('product-detail',$product->slug)}}">{{$product->title}}</a></h3>
+                                <div class="product-price">
+                                    @if($product->offer_price > 0)
+                                        <span>${{number_format($product->offer_price,2)}}</span>
+                                        <span class="old">${{number_format($product->price,2)}}</span>
 
+                                    @else
+                                        <span>${{number_format($product->price,2)}}</span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Single Product -->
+                    @endforeach
                 </div>
             </div>
         </div>
     </div>
-</section> --}}
+</div>
+
+
+
 <!-- End Shop Home List  -->
 {{-- @foreach($featured as $data)
     <!-- Start Cowndown Area -->
@@ -366,55 +387,11 @@
 </section> --}}
 <!-- End Shop Blog  -->
 
-<!-- Start Shop Services Area -->
-{{-- <section class="shop-services section home">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-3 col-md-6 col-12">
-                <!-- Start Single Service -->
-                <div class="single-service">
-                    <i class="ti-rocket"></i>
-                    <h4>Free shiping</h4>
-                    <p>Orders over $100</p>
-                </div>
-                <!-- End Single Service -->
-            </div>
-            <div class="col-lg-3 col-md-6 col-12">
-                <!-- Start Single Service -->
-                <div class="single-service">
-                    <i class="ti-reload"></i>
-                    <h4>Free Return</h4>
-                    <p>Within 30 days returns</p>
-                </div>
-                <!-- End Single Service -->
-            </div>
-            <div class="col-lg-3 col-md-6 col-12">
-                <!-- Start Single Service -->
-                <div class="single-service">
-                    <i class="ti-lock"></i>
-                    <h4>Sucure Payment</h4>
-                    <p>100% secure payment</p>
-                </div>
-                <!-- End Single Service -->
-            </div>
-            <div class="col-lg-3 col-md-6 col-12">
-                <!-- Start Single Service -->
-                <div class="single-service">
-                    <i class="ti-tag"></i>
-                    <h4>Best Peice</h4>
-                    <p>Guaranteed price</p>
-                </div>
-                <!-- End Single Service -->
-            </div>
-        </div>
-    </div>
-</section> --}}
-<!-- End Shop Services Area -->
 
-{{-- @include('frontend.layouts.newsletter') --}}
+@include('frontend.pages.newsletter.index')
 
 <!-- Modal -->
-{{-- in note pad --}}
+@include('frontend.pages.product.modal')
 <!-- Modal end -->
 @endsection
 

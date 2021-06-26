@@ -40,7 +40,7 @@
                                     <div class="col-lg-6 col-md-6 col-12">
                                         <div class="form-group">
                                             <label>First Name<span>*</span></label>
-                                            <input type="text" name="first_name" placeholder="" value="{{ $name[0] }}">
+                                            <input type="text" name="first_name" placeholder="" value="{{ $name[0] }}" required>
                                             @error('first_name')
                                                 <span class='text-danger'>{{$message}}</span>
                                             @enderror
@@ -49,7 +49,7 @@
                                     <div class="col-lg-6 col-md-6 col-12">
                                         <div class="form-group">
                                             <label>Last Name<span>*</span></label>
-                                            <input type="text" name="last_name" placeholder="" value="{{ $name[1] }}">
+                                            <input type="text" name="last_name" placeholder="" value="{{ $name[1] }}" required>
                                             @error('last_name')
                                                 <span class='text-danger'>{{$message}}</span>
                                             @enderror
@@ -58,7 +58,7 @@
                                     <div class="col-lg-6 col-md-6 col-12">
                                         <div class="form-group">
                                             <label>Email Address<span>*</span></label>
-                                            <input type="email" name="email" placeholder="" value="{{ Auth::user()->email }}">
+                                            <input type="email" name="email" placeholder="" value="{{ Auth::user()->email }}" required>
                                             @error('email')
                                                 <span class='text-danger'>{{$message}}</span>
                                             @enderror
@@ -67,7 +67,7 @@
                                     <div class="col-lg-6 col-md-6 col-12">
                                         <div class="form-group">
                                             <label>Phone Number <span>*</span></label>
-                                            <input type="number" name="phone" placeholder="" required value="{{ Auth::user()->phone }}}">
+                                            <input type="number" name="phone" placeholder=""  value ="{{ Auth::user()->phone }}" required>
                                             @error('phone')
                                                 <span class='text-danger'>{{$message}}</span>
                                             @enderror

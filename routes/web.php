@@ -5,13 +5,13 @@ use App\Http\Controllers\admin\BannerController;
 use App\Http\Controllers\admin\BrandController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\CouponController;
+use App\Http\Controllers\admin\OrderController;
 use App\Http\Controllers\admin\ProductControllert;
 use App\Http\Controllers\admin\ShippingController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\frontend\CartController;
 use App\Http\Controllers\frontend\CheckoutController;
 use App\Http\Controllers\frontend\IndexController;
-use App\Http\Controllers\frontend\OrderController;
 use App\Http\Controllers\frontend\user\CustomerController;
 use App\Http\Controllers\frontend\WishlistController;
 use App\Http\Controllers\HomeController;
@@ -60,10 +60,10 @@ Route::group(['middleware'=>'auth'],function(){
         Route::post('/create-order',[CheckoutController::class,'checkoutOrder'])->name('checkout.order');
         Route::post('/order-store',[CheckoutController::class,'orderStore'])->name('checkout.store');
     });
-    Route::prefix('order')->group(function () {
+    /* Route::prefix('order')->group(function () {
         Route::get('',[OrderController::class,'order'])->name('order')->middleware('user');
 
-    });
+    }); */
 });
 
 //End frontend
@@ -94,6 +94,8 @@ Route::group(['prefix'=>'/admin','middleware'=>['auth','admin']],function(){
     //shipping
     Route::resource('shipping', ShippingController::class);
     Route::post('shipping_status', [ShippingController::class,'shippingStatus'])->name('shipping.status');
+    //orders
+    Route::resource('orders', OrderController::class);
 });
 
 

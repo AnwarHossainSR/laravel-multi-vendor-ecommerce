@@ -3,11 +3,15 @@
 namespace App\Http\Controllers\frontend;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\OrderEmailJob;
+use App\Mail\OrderMail;
 use App\Models\Order;
+use App\Models\Payment;
 use App\Models\Shipping;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
@@ -85,6 +89,7 @@ class CheckoutController extends Controller
             $order['total_amount']=Session::get('checkout')[2]['total_amount'];
         }
 
+        $order['delivery_charge']=Session::get('checkout')[1]['delivery_charge'];
         $order['payment_method']=Session::get('checkout')[1]['payment_method'];
         $order['payment_status'] = 'paid';
         $order['status'] = 'pending';
@@ -109,7 +114,23 @@ class CheckoutController extends Controller
             $order['coupon']= Session::get('coupon')['discount'];
         }
         //return Session::get('checkout');
-        $order->save();
+        $last_order = $order->save();
+        if ($last_order) {
+            $payment = new Payment();
+            $payment['card_no']=Session::get('checkout')[1]['card_no'];
+            $payment['expire']=Session::get('checkout')[1]['expire'];
+            $payment['security_code']=Session::get('checkout')[1]['security_code'];
+            $payment['order_no']=$order['order_number'];
+
+            $payment->save();
+        } else {
+            Session::forget('coupon');
+            Session::forget('checkout');
+            return \redirect()->route('checkout')->with('something is wrong, please try again');
+        }
+
+        //Mail::to($order['email'])->cc('mahedisr@gmail.com')->send(new OrderMail($order));
+        dispatch(new OrderEmailJob($order))->delay(now()->addSeconds(5));
         Cart::instance('shopping')->destroy();
         Session::forget('coupon');
         Session::forget('checkout');

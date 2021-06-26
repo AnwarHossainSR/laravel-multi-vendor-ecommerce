@@ -31,16 +31,16 @@
                     <thead>
                         <tr class="main-hading">
                             <th class="text-center">#</th>
-                            <th class="text-center">Method</th>
-                            <th class="text-center">Delivery</th>
-                            <th class="text-center">Expence</th>
+                            <th class="text-center">Shipping Address</th>
+                            <th class="text-center">Delivery Time</th>
+                            <th class="text-center">Charge</th>
                             <th class="text-center">Choose</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($shippings as $key => $item)
                         <tr>
-                            <td class="text-center"><span>${{ $loop->iteration }} </span></td>
+                            <td class="text-center"><span>{{ $loop->iteration }} </span></td>
                             <td class="text-center"><span>${{ $item->shipping_address }} </span></td>
                             <td class="text-center"><span>${{ $item->delivery_time }} </span></td>
                             <td class="text-center"><span>${{ $item->delivery_charge }} </span></td>
