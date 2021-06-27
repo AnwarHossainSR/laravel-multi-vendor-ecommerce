@@ -36,11 +36,7 @@
                   <li><a href="{{ route('product.create') }}">Create Product</a></li>
                 </ul>
               </li>
-              <li><a href="#exampledropdownDropdownshipping" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-car" aria-hidden="true" style="font-size: 20px;"></i></i>Shipping </a>
-                <ul id="exampledropdownDropdownshipping" class="collapse list-unstyled ">
-                  <li><a href="{{ route('shipping.index') }}">All Shipping</a></li>
-                  <li><a href="{{ route('shipping.create') }}">Create Shipping</a></li>
-                </ul>
+              <li><a href="{{ route('shipping.index') }}"> <i class="fa fa-car" style="font-size: 20px;"></i></i>Shipping </a>
               </li>
               <li><a href="#exampledropdownDropdown4" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-cart-plus" aria-hidden="true" style="font-size: 20px;"></i></i>Cart </a>
                 <ul id="exampledropdownDropdown4" class="collapse list-unstyled ">
@@ -49,24 +45,13 @@
                   <li><a href="#">Page</a></li>
                 </ul>
               </li>
-              <li><a href="#exampledropdownDropdown5" aria-expanded="false" data-toggle="collapse"> <i class="icon-layers"></i>Order Manage </a>
-                <ul id="exampledropdownDropdown5" class="collapse list-unstyled ">
-                  <li><a href="{{ route('orders.index') }}">Order</a></li>
-                </ul>
+              <li><a href="{{ route('orders.index') }}"> <i class="icon-layers"></i>Order Manage </a>
               </li>
-              <li><a href="#exampledropdownDropdown6" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-tags" aria-hidden="true"></i> </i>Post Tag </a>
-                <ul id="exampledropdownDropdown6" class="collapse list-unstyled ">
-                  <li><a href="#">Page</a></li>
-                  <li><a href="#">Page</a></li>
-                  <li><a href="#">Page</a></li>
-                </ul>
+              <li><a href="{{ route('posttag.index') }}"> <i class="fa fa-tags" aria-hidden="true"></i> </i>Post Tag </a>
               </li>
-              <li><a href="#exampledropdownDropdown7" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-newspaper-o" aria-hidden="true"></i>Post </a>
-                <ul id="exampledropdownDropdown7" class="collapse list-unstyled ">
-                  <li><a href="#">Page</a></li>
-                  <li><a href="#">Page</a></li>
-                  <li><a href="#">Page</a></li>
-                </ul>
+              <li><a href="{{ route('postcategory.index') }}"> <i class="fa fa-tags" aria-hidden="true"></i> </i>Post Category </a>
+              </li>
+              <li><a href="{{ route('post.index') }}"> <i class="fa fa-newspaper-o" aria-hidden="true"></i>Post </a>
               </li>
               <li><a href="#exampledropdownDropdown8" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-star" aria-hidden="true"> </i> Review </a>
                 <ul id="exampledropdownDropdown8" class="collapse list-unstyled ">

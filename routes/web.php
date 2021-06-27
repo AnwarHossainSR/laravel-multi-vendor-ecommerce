@@ -6,6 +6,9 @@ use App\Http\Controllers\admin\BrandController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\CouponController;
 use App\Http\Controllers\admin\OrderController;
+use App\Http\Controllers\admin\PostCategoryController;
+use App\Http\Controllers\admin\PostController;
+use App\Http\Controllers\admin\PostTagController;
 use App\Http\Controllers\admin\ProductControllert;
 use App\Http\Controllers\admin\ShippingController;
 use App\Http\Controllers\admin\UserController;
@@ -96,6 +99,15 @@ Route::group(['prefix'=>'/admin','middleware'=>['auth','admin']],function(){
     Route::post('shipping_status', [ShippingController::class,'shippingStatus'])->name('shipping.status');
     //orders
     Route::resource('orders', OrderController::class);
+    //posttag
+    Route::resource('posttag', PostTagController::class);
+    Route::post('posttag_status', [PostTagController::class,'posttagStatus'])->name('posttag.status');
+    //posttag
+    Route::resource('postcategory', PostCategoryController::class);
+    Route::post('postcategory_status', [PostCategoryController::class,'postCategoryStatus'])->name('postcategory.status');
+    //post
+    Route::resource('post', PostController::class);
+    Route::post('post_status', [PostController::class,'postStatus'])->name('post.status');
 });
 
 
