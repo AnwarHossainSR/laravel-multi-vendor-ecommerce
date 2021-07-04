@@ -74,9 +74,9 @@
                         <div class="search-bar">
                             <select>
                                 <option >All Category</option>
-                                @foreach ($category_header as $category)
+                               {{--  @foreach ($category_header as $category)
                                 <option value="{{ $category->id }}">{{ $category->title }}</option>
-                                @endforeach
+                                @endforeach --}}
                             </select>
                             <form method="POST" action="">
                                 @csrf
@@ -177,7 +177,7 @@
                                             <li class=""><a href="">About Us</a></li>
                                             <li class=""><a href="">Products</a><span class="new">New</span></li>
 
-                                            <li class=""><a href="">Blog</a></li>
+                                            <li class=""><a href="{{ route('blogs.index') }}">Blog</a></li>
 
                                             <li class=""><a href="">Contact Us</a></li>
                                         </ul>

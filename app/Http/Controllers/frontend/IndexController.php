@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\View;
 
 class IndexController extends Controller
 {
@@ -21,10 +22,10 @@ class IndexController extends Controller
         $products=Product::where('status','active')->orderBy('id','DESC')->limit(8)->get();
         $product_hot=Product::where(['status'=>'active','condition'=>'hot'])->orderBy('id','DESC')->limit(8)->get();
         $categories=Category::where(['status'=>'active','is_parent'=>1])->limit(3)->orderBy('title','ASC')->get();
-        $category_header=Category::where(['status'=>'active'])->get()->random(6);
+        //$category_header=Category::where(['status'=>'active'])->get()->random(6);
         //inRandomOrder()->limit(10)
         $product_latest=Product::where('status','active')->orderBy('id','DESC')->limit(8)->get();
-        return \view('frontend.index',\compact('banners','categories','category_header','products','featured','product_latest','product_hot'));
+        return \view('frontend.index',\compact('banners','categories','products','featured','product_latest','product_hot'));
     }
 
     public function productCategory(Request $request,$slug)
@@ -76,7 +77,7 @@ class IndexController extends Controller
 
     public function productDetail($slug){
         $product_detail= Product::getProductBySlug($slug);
-        return view('frontend.pages.product_detail')->with('product_detail',$product_detail);
+        return view('frontend.pages.product.product_detail')->with('product_detail',$product_detail);
     }
 
     public function productBrand($slug){

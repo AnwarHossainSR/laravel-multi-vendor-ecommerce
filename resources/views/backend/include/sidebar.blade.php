@@ -2,10 +2,10 @@
 <nav id="sidebar">
     <!-- Sidebar Header-->
     <div class="sidebar-header d-flex align-items-center">
-      <div class="avatar"><img src="{{ Auth::user()->photo }}" alt="..." class="img-fluid rounded-circle"></div>
+      <div class="avatar"><img src="{{ Auth::guard('admin')->user()->photo }}" alt="..." class="img-fluid rounded-circle"></div>
       <div class="title">
-        <h1 class="h5">{{ Auth::user()->full_name }}</h1>
-        <p>{{ Auth::user()->role }}</p>
+        <h1 class="h5">{{ Auth::guard('admin')->user()->full_name }}</h1>
+        <p>{{ Auth::guard('admin')->user()->role }}</p>
       </div>
     </div>
     <!-- Sidebar Navidation Menus--><span class="heading">Main</span>

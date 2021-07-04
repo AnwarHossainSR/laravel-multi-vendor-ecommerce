@@ -10,8 +10,12 @@ use App\Http\Controllers\admin\PostCategoryController;
 use App\Http\Controllers\admin\PostController;
 use App\Http\Controllers\admin\PostTagController;
 use App\Http\Controllers\admin\ProductControllert;
+use App\Http\Controllers\admin\ProductReviewController;
 use App\Http\Controllers\admin\ShippingController;
 use App\Http\Controllers\admin\UserController;
+use App\Http\Controllers\Auth\admin\AdminController as AdminAuthController;
+use App\Http\Controllers\frontend\BlogCommentController;
+use App\Http\Controllers\frontend\BlogController;
 use App\Http\Controllers\frontend\CartController;
 use App\Http\Controllers\frontend\CheckoutController;
 use App\Http\Controllers\frontend\IndexController;
@@ -25,7 +29,10 @@ Route::get('/',[IndexController::class,'home'])->name('home');
 
 Route::get('/login', [HomeController::class,'index']);
 Route::get('/register', [HomeController::class,'index']);
-
+Route::prefix('admin')->group(function () {
+    Route::get('login', [AdminAuthController::class,'showLoginForm'])->name('admin.login');
+    Route::post('login', [AdminAuthController::class,'adminCrediential'])->name('admin.login.check');
+});
 Auth::routes();
 
 //Frontend routes
@@ -35,6 +42,18 @@ Route::get('product-detail/{slug}',[IndexController::class,'productDetail'])->na
 Route::get('/product-brand/{slug}',[IndexController::class,'productBrand'])->name('product-brand');
 Route::get('/product-lists',[IndexController::class,'productLists'])->name('product-lists');
 Route::match(['get','post'],'/filter',[IndexController::class,'productFilter'])->name('shop.filter');
+//review
+Route::resource('review', ProductReviewController::class);
+//blog
+Route::resource('blogs', BlogController::class);
+Route::get('/blog-detail/{slug}',[BlogController::class,'blogDetail'])->name('blog.detail');
+Route::get('/blog/search',[BlogController::class,'blogSearch'])->name('blog.search');
+Route::post('/blog/filter',[BlogController::class,'blogFilter'])->name('blog.filter');
+Route::get('blog-cat/{slug}',[BlogController::class,'blogByCategory'])->name('blog.category');
+Route::get('blog-tag/{slug}',[BlogController::class,'blogByTag'])->name('blog.tag');
+// Blog Comment
+Route::resource('/comment',BlogCommentController::class);
+Route::post('post/{slug}/comment',[BlogCommentController::class,'store'])->name('post-comment.store');
 
 Route::group(['middleware'=>'auth'],function(){
     // Cart section
@@ -63,16 +82,13 @@ Route::group(['middleware'=>'auth'],function(){
         Route::post('/create-order',[CheckoutController::class,'checkoutOrder'])->name('checkout.order');
         Route::post('/order-store',[CheckoutController::class,'orderStore'])->name('checkout.store');
     });
-    /* Route::prefix('order')->group(function () {
-        Route::get('',[OrderController::class,'order'])->name('order')->middleware('user');
 
-    }); */
 });
 
 //End frontend
 
 //Backend
-Route::group(['prefix'=>'/admin','middleware'=>['auth','admin']],function(){
+Route::group(['prefix'=>'/admin','middleware'=>['admin']],function(){
     Route::get('/dashboard', [AdminController::class,'admin'])->name('admin');
     //Banners
     Route::resource('banner', BannerController::class);
@@ -114,7 +130,7 @@ Route::group(['prefix'=>'/admin','middleware'=>['auth','admin']],function(){
 
 //seller
 
-Route::group(['prefix'=>'/seller','middleware'=>['auth','seller']],function(){
+Route::group(['prefix'=>'/seller','middleware'=>['seller']],function(){
     Route::get('/dashboard', function () {
         return 'Seller user';
     })->name('seller');
@@ -122,7 +138,7 @@ Route::group(['prefix'=>'/seller','middleware'=>['auth','seller']],function(){
 
 //customer
 
-Route::group(['prefix'=>'/user','middleware'=>['auth','user']],function(){
+Route::group(['prefix'=>'/user','middleware'=>['auth','web']],function(){
     Route::get('/dashboard', [CustomerController::class,'userDashboard'])->name('customer');
     //order
     Route::get('/order',[CustomerController::class,'orderIndex'])->name('user.order');

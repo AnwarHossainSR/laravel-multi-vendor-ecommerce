@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class Seller
 {
@@ -16,7 +17,7 @@ class Seller
      */
     public function handle(Request $request, Closure $next)
     {
-        if(\auth()->user()->role=='seller'){
+        if(Auth::guard('seller')->check()){
             return $next($request);
         }
         else{

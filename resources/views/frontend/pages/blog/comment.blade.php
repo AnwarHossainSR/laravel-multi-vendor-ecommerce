@@ -6,12 +6,12 @@
         <div class="single-comment">
             @if($comment->user_info['photo'])
                 <img src="{{$comment->user_info['photo']}}" alt="#">
-            @else 
+            @else
                 <img src="{{asset('backend/img/avatar.png')}}" alt="">
             @endif
             <div class="content">
                 {{-- {{$post}} --}}
-            <h4>{{$comment->user_info['name']}} <span>At {{$comment->created_at->format('g: i a')}} On {{$comment->created_at->format('M d Y')}}</span></h4>
+            <h4>{{$comment->user_info['full_name']}} <span>At {{$comment->created_at->format('g: i a')}} On {{$comment->created_at->format('M d Y')}}</span></h4>
                 <p>{{$comment->comment}}</p>
                 @if($dep)
                 <div class="button">
@@ -22,7 +22,7 @@
             </div>
         </div>
     </div>
-    @include('frontend.pages.comment', ['comments' => $comment->replies, 'depth' => $dep])
+    @include('frontend.pages.blog.comment', ['comments' => $comment->replies, 'depth' => $dep])
 
-</div>    
+</div>
 @endforeach

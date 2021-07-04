@@ -16,40 +16,44 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
+        DB::table('admins')->insert([
             [
                 'full_name'=>'Anwar Hossain',
                 'username'=>'Admin',
                 'email'=>'admin@gmail.com',
                 'email_verified_at' => now(),
                 'password'=>Hash::make('admin'),
-                'role'=>'admin',
+                //'role'=>'admin',
                 'photo'=>'https://fakeimg.pl/350x200/?text=Hello',
                 'phone'=>'01729532097',
                 'status'=>'active',
                 'created_at'=>Carbon::now(),
                 'updated_at'=>Carbon::now()
-            ],
-            [
-                'full_name'=>'Mahedi Hasan',
-                'username'=>'Seller',
-                'email'=>'seller@gmail.com',
-                'email_verified_at' => now(),
-                'password'=>Hash::make('seller'),
-                'role'=>'seller',
-                'photo'=>'https://fakeimg.pl/350x200/?text=Hello',
-                'phone'=>'01729532097',
-                'status'=>'active',
-                'created_at'=>Carbon::now(),
-                'updated_at'=>Carbon::now()
-            ],
+            ]
+        ]);
+        DB::table('users')->insert([
             [
                 'full_name'=>'Ibrahim Aaraf',
                 'username'=>'Customer',
                 'email'=>'customer@gmail.com',
                 'email_verified_at' => now(),
                 'password'=>Hash::make('customer'),
-                'role'=>'customer',
+                //'role'=>'customer',
+                'photo'=>'https://fakeimg.pl/350x200/?text=Hello',
+                'phone'=>'01729532097',
+                'status'=>'active',
+                'created_at'=>Carbon::now(),
+                'updated_at'=>Carbon::now()
+            ]
+        ]);
+        DB::table('sellers')->insert([
+            [
+                'full_name'=>'Mahedi Hasan',
+                'username'=>'Seller',
+                'email'=>'seller@gmail.com',
+                'email_verified_at' => now(),
+                'password'=>Hash::make('seller'),
+                //'role'=>'seller',
                 'photo'=>'https://fakeimg.pl/350x200/?text=Hello',
                 'phone'=>'01729532097',
                 'status'=>'active',

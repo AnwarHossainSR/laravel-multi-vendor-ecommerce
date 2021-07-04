@@ -22,7 +22,7 @@ class Post extends Model
         return $this->hasOne('App\Models\User','id','added_by');
     }
     public static function getAllPost(){
-        return Post::with(['cat_info','author_info'])->orderBy('id','DESC')->paginate(10);
+        return Post::with(['cat_info','author_info'])->latest()->paginate(10);
     }
 
     public static function getPostBySlug($slug){
@@ -36,10 +36,7 @@ class Post extends Model
         return $this->hasMany(PostComment::class)->where('status','active');
     }
 
-    public static function getBlogByTag($slug){
-        // dd($slug);
-        return Post::where('tags',$slug)->paginate(8);
-    }
+
 
     public static function countActivePost(){
         $data=Post::where('status','active')->count();
